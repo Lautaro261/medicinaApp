@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Button, Input, Layout, Text } from '@ui-kitten/components';
 import { Formik } from 'formik';
 
 export const LoginScreen = () => {
@@ -12,26 +13,38 @@ export const LoginScreen = () => {
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View style={styles.container}>
-          <Text style={styles.title}>Login</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
+        <Layout style={styles.container}>
+          <Text category="h1" style={styles.title}>
+            Bienvenido
+          </Text>
+          <Text category="s1" style={styles.subtitle}>
+            Inicia sesión para continuar
+          </Text>
+          <Input
             keyboardType="email-address"
+            autoCapitalize="none"
+            placeholder="Correo electrónico"
             onChangeText={handleChange('email')}
-            onBlur={handleBlur('email')}
             value={values.email}
-          />
-          <TextInput
+            onBlur={handleBlur('email')}
             style={styles.input}
-            placeholder="Password"
+          />
+          <Input
+            autoCapitalize="none"
+            placeholder="Contraseña"
             secureTextEntry
             onChangeText={handleChange('password')}
-            onBlur={handleBlur('password')}
             value={values.password}
+            onBlur={handleBlur('password')}
+            style={styles.input}
           />
-          <Button title="Login" onPress={handleSubmit} />
-        </View>
+          <Button onPress={handleSubmit} style={styles.button}>
+            Iniciar sesión
+          </Button>
+          <Text style={styles.footer}>
+            ¿No tienes una cuenta? <Text style={styles.link}>Regístrate</Text>
+          </Text>
+        </Layout>
       )}
     </Formik>
   );
@@ -43,18 +56,40 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#F3EAFB', // Fondo morado claro
   },
   title: {
-    fontSize: 24,
-    marginBottom: 16,
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#5A189A', // Morado oscuro
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#6A3AB6', // Morado medio
+    marginBottom: 24,
   },
   input: {
-    width: '100%',
-    padding: 12,
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    width: '100%',
+    backgroundColor: '#FFF',
     borderRadius: 8,
+    borderColor: '#D0B3F1', // Morado claro en bordes
+    borderWidth: 1,
+    paddingHorizontal: 12,
+  },
+  button: {
+    backgroundColor: '#7B2CBF', // Morado intenso
+    borderColor: '#7B2CBF',
+    marginVertical: 16,
+    borderRadius: 8,
+  },
+  footer: {
+    marginTop: 16,
+    color: '#6A3AB6', // Morado medio
+  },
+  link: {
+    color: '#5A189A', // Morado oscuro
+    fontWeight: 'bold',
   },
 });
