@@ -2,14 +2,17 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Input, Layout, Text } from '@ui-kitten/components';
 import { Formik } from 'formik';
+import { useNavigation } from '@react-navigation/native';
 
 export const LoginScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
       onSubmit={(values) => {
         console.log('Login values:', values);
-        // Aquí puedes agregar navegación o lógica adicional
+        navigation.navigate('Professionals')
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (

@@ -2,18 +2,20 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Input, Layout, Text } from '@ui-kitten/components';
 import { Formik } from 'formik';
+import { useNavigation } from '@react-navigation/native';
 
 export const RegisterScreen = () => {
+  const navigation = useNavigation();
   return (
     <Formik
       initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
       onSubmit={(values) => {
         console.log('Register values:', values);
-        // Aquí puedes agregar lógica adicional o navegación
+        navigation.navigate('Login');
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <Layout style={styles.container}> // React-native usabamos el componente View pero con Kitten usamos Layout 
+        <Layout style={styles.container}> 
           <Text category="h1" style={styles.title}>
             Crear cuenta
           </Text>
