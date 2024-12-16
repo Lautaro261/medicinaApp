@@ -2,6 +2,7 @@ import React from "react";
 import { View, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import { Text, Avatar } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
+import { screen } from "../../utils/ScreenName";
 
 export const ListProfessionals = (props) => {
   const { professionals } = props;
@@ -9,7 +10,8 @@ export const ListProfessionals = (props) => {
 
   const goToProfessional = (professional) => {
     console.log('Click', { professional });
-    navigation.navigate("ProfessionalDetail", { professional });
+    //navigation.navigate("ProfessionalDetail", { professional });
+    navigation.navigate(screen.professional.professional, {professional})
   };
 
   return (
