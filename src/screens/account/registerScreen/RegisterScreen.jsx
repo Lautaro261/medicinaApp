@@ -33,7 +33,7 @@ export const RegisterScreen = () => {
 
     {/* Enlace para crear cuenta */}
     <Text style={styles.footer}>
-      ¿No tienes una cuenta? <Text style={styles.link} onPress={goToLogin}>Regístrate</Text>
+      ¿Ya tienes una cuenta? <Text style={styles.link} onPress={goToLogin}>Login</Text>
     </Text>
   </Layout>
 

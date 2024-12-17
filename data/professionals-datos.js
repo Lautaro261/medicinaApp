@@ -1,50 +1,80 @@
 export const professionalsData = [
-  { 
-    id: "1", 
-    name: "Dr. Juan Pérez", 
-    specialty: "Pediatra", 
-    location: "CABA, Argentina", 
-    image: "https://via.placeholder.com/150", 
-    description: "Especializado en el cuidado infantil y enfermedades pediátricas comunes." 
+  {
+    id: "1",
+    name: "Dr. Juan Pérez",
+    specialty: "Pediatra",
+    location: "CABA, Argentina",
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/FF0000",
+      "https://via.placeholder.com/300/00FF00",
+      "https://via.placeholder.com/300/0000FF",
+    ],
+    description: "Especializado en el cuidado infantil y enfermedades pediátricas comunes.",
   },
-  { 
-    id: "2", 
-    name: "Dr. Laura López", 
-    specialty: "Cardióloga", 
-    location: "Buenos Aires, Argentina", 
-    image: "https://via.placeholder.com/150", 
-    description: "Experta en diagnóstico y tratamiento de enfermedades del corazón." 
+  {
+    id: "2",
+    name: "Dr. Laura López",
+    specialty: "Cardióloga",
+    location: "Buenos Aires, Argentina",
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/FF5733",
+      "https://via.placeholder.com/300/C70039",
+      "https://via.placeholder.com/300/900C3F",
+    ],
+    description: "Experta en diagnóstico y tratamiento de enfermedades del corazón.",
   },
-  { 
-    id: "3", 
-    name: "Dr. Roberto Díaz", 
-    specialty: "Cirujano", 
-    location: "CABA, Argentina", 
-    image: "https://via.placeholder.com/150", 
-    description: "Cirujano especializado en intervenciones complejas y urgentes." 
+  {
+    id: "3",
+    name: "Dr. Roberto Díaz",
+    specialty: "Cirujano",
+    location: "CABA, Argentina",
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/FFC300",
+      "https://via.placeholder.com/300/DAF7A6",
+      "https://via.placeholder.com/300/FF5733",
+    ],
+    description: "Cirujano especializado en intervenciones complejas y urgentes.",
   },
-  { 
-    id: "4", 
-    name: "Dra. María García", 
-    specialty: "Dermatóloga", 
-    location: "Rosario, Argentina", 
-    image: "https://via.placeholder.com/150", 
-    description: "Especialista en enfermedades de la piel, tratamiento de acne y rejuvenecimiento." 
+  {
+    id: "4",
+    name: "Dra. María García",
+    specialty: "Dermatóloga",
+    location: "Rosario, Argentina",
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
+    description: "Especialista en enfermedades de la piel, tratamiento de acne y rejuvenecimiento.",
   },
-  { 
-    id: "5", 
-    name: "Dr. Luis Martínez", 
-    specialty: "Oftalmólogo", 
-    location: "Mendoza, Argentina", 
-    image: "https://via.placeholder.com/150", 
-    description: "Médico especializado en el diagnóstico y tratamiento de enfermedades oculares." 
+  {
+    id: "5",
+    name: "Dr. Luis Martínez",
+    specialty: "Oftalmólogo",
+    location: "Mendoza, Argentina",
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/FFBD33",
+      "https://via.placeholder.com/300/FF5733",
+      "https://via.placeholder.com/300/DAF7A6",
+    ],
+    description: "Médico especializado en el diagnóstico y tratamiento de enfermedades oculares.",
   },
   { 
     id: "6", 
     name: "Dra. Ana Rodríguez", 
     specialty: "Neuróloga", 
     location: "CABA, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Especializada en trastornos neurológicos como migrañas, epilepsia y enfermedades neurodegenerativas." 
   },
   { 
@@ -52,7 +82,12 @@ export const professionalsData = [
     name: "Dr. Ricardo Fernández", 
     specialty: "Ginecólogo", 
     location: "Buenos Aires, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Ginecólogo con experiencia en control prenatal y enfermedades ginecológicas." 
   },
   { 
@@ -60,7 +95,12 @@ export const professionalsData = [
     name: "Dra. Laura Méndez", 
     specialty: "Oncóloga", 
     location: "Córdoba, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Especialista en el tratamiento de cáncer y en terapias oncológicas avanzadas." 
   },
   { 
@@ -68,7 +108,12 @@ export const professionalsData = [
     name: "Dr. Mario Gómez", 
     specialty: "Traumatólogo", 
     location: "Mendoza, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Experto en cirugía y tratamiento de lesiones musculoesqueléticas." 
   },
   { 
@@ -76,7 +121,12 @@ export const professionalsData = [
     name: "Dra. Isabel Castro", 
     specialty: "Psicóloga", 
     location: "Salta, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Psicóloga clínica especializada en trastornos emocionales y terapia cognitivo-conductual." 
   },
   { 
@@ -84,7 +134,12 @@ export const professionalsData = [
     name: "Dr. Javier Morales", 
     specialty: "Endocrinólogo", 
     location: "La Plata, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ], 
     description: "Experto en diagnóstico y tratamiento de trastornos hormonales y metabólicos." 
   },
   { 
@@ -92,7 +147,12 @@ export const professionalsData = [
     name: "Dra. Pilar Sánchez", 
     specialty: "Psiquiatra", 
     location: "Mar del Plata, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Especialista en salud mental y tratamiento de trastornos psiquiátricos." 
   },
   { 
@@ -100,7 +160,12 @@ export const professionalsData = [
     name: "Dr. Alejandro Fernández", 
     specialty: "Cirujano Plástico", 
     location: "CABA, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Especialista en cirugía estética y reparadora." 
   },
   { 
@@ -108,7 +173,12 @@ export const professionalsData = [
     name: "Dra. Carolina Ruiz", 
     specialty: "Gastroenteróloga", 
     location: "Mendoza, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Médica especializada en enfermedades del sistema digestivo." 
   },
   { 
@@ -116,7 +186,12 @@ export const professionalsData = [
     name: "Dr. Manuel Sánchez", 
     specialty: "Urólogo", 
     location: "Buenos Aires, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Médico especializado en trastornos del tracto urinario y del sistema reproductivo masculino." 
   },
   { 
@@ -124,7 +199,12 @@ export const professionalsData = [
     name: "Dra. Teresa González", 
     specialty: "Médica General", 
     location: "Rosario, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Médica general con más de 15 años de experiencia en atención primaria." 
   },
   { 
@@ -132,7 +212,12 @@ export const professionalsData = [
     name: "Dr. Francisco Pérez", 
     specialty: "Otorrinolaringólogo", 
     location: "CABA, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Especialista en diagnóstico y tratamiento de problemas relacionados con la nariz, garganta y oído." 
   },
   { 
@@ -140,7 +225,12 @@ export const professionalsData = [
     name: "Dra. Fernanda López", 
     specialty: "Pediatra", 
     location: "CABA, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Especialista en cuidado infantil y atención de niños con enfermedades comunes." 
   },
   { 
@@ -148,7 +238,12 @@ export const professionalsData = [
     name: "Dr. Sebastián Martínez", 
     specialty: "Anestesiólogo", 
     location: "San Juan, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Médico especializado en el manejo de la anestesia durante procedimientos quirúrgicos." 
   },
   { 
@@ -156,7 +251,12 @@ export const professionalsData = [
     name: "Dra. Valeria Gómez", 
     specialty: "Radioterapeuta", 
     location: "Tucumán, Argentina", 
-    image: "https://via.placeholder.com/150", 
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
     description: "Especialista en radioterapia para tratamiento de diferentes tipos de cáncer." 
   }
 ];

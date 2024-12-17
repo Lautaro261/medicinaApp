@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { Text, Button, Card, Icon } from "@ui-kitten/components";
+//import { Carousel } from "../../../components/shared/carousel/Carousel";
+
+
+const { width } = Dimensions.get("window");
 
 export const ProfessionalDetailsScreen = ({ route }) => {
   // Obtener la información del profesional desde los parámetros de navegación
@@ -12,9 +16,11 @@ export const ProfessionalDetailsScreen = ({ route }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Card style={styles.card}>
+
+      {/* <Carousel /> */}
+       <Card style={styles.card}>
         <View style={styles.header}>
-          {/* <Icon name="person" style={styles.icon} /> */}
+            {/* <Icon name="person-outline"  />  */}
           <Text category="h1" style={styles.name}>
             {professional.name}
           </Text>
@@ -31,7 +37,7 @@ export const ProfessionalDetailsScreen = ({ route }) => {
         <Button style={styles.button} onPress={() => console.log("Llamar al profesional")}>
           Llamar
         </Button>
-      </Card>
+      </Card> 
     </ScrollView>
   );
 };
