@@ -2,9 +2,9 @@ import React from "react";
 import { View, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import { Text, Avatar } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
-import { screen } from "../../utils/ScreenName";
+import { screen } from "../../../utils/ScreenName";
 
-export const ListProfessionals = (props) => {
+export const ProfessionalsList = (props) => {
   const { professionals } = props;
   const navigation = useNavigation();
 

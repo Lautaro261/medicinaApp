@@ -260,3 +260,77 @@ export const professionalsData = [
     description: "Especialista en radioterapia para tratamiento de diferentes tipos de cáncer." 
   }
 ];
+
+
+export const professionalsRankingData = [
+  {
+    id: "1",
+    name: "Dr. Juan Pérez",
+    specialty: "Pediatra",
+    location: "CABA, Argentina",
+    ratingMedia: 2.5, // Valor numérico válido
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/FF0000",
+      "https://via.placeholder.com/300/00FF00",
+      "https://via.placeholder.com/300/0000FF",
+    ],
+    description: "Especializado en el cuidado infantil y enfermedades pediátricas comunes.",
+  },
+  {
+    id: "2",
+    name: "Dr. Laura López",
+    specialty: "Cardióloga",
+    location: "Buenos Aires, Argentina",
+    ratingMedia: 4.7,
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/FF5733",
+      "https://via.placeholder.com/300/C70039",
+      "https://via.placeholder.com/300/900C3F",
+    ],
+    description: "Experta en diagnóstico y tratamiento de enfermedades del corazón.",
+  },
+  {
+    id: "3",
+    name: "Dr. Roberto Díaz",
+    specialty: "Cirujano",
+    location: "CABA, Argentina",
+    ratingMedia: 3.9,
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/FFC300",
+      "https://via.placeholder.com/300/DAF7A6",
+      "https://via.placeholder.com/300/FF5733",
+    ],
+    description: "Cirujano especializado en intervenciones complejas y urgentes.",
+  },
+  {
+    id: "4",
+    name: "Dra. María García",
+    specialty: "Dermatóloga",
+    location: "Rosario, Argentina",
+    ratingMedia: 4.8,
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/581845",
+      "https://via.placeholder.com/300/900C3F",
+      "https://via.placeholder.com/300/FF5733",
+    ],
+    description: "Especialista en enfermedades de la piel, tratamiento de acne y rejuvenecimiento.",
+  },
+  {
+    id: "5",
+    name: "Dr. Luis Martínez",
+    specialty: "Oftalmólogo",
+    location: "Mendoza, Argentina",
+    ratingMedia: 4.2,
+    image: "https://via.placeholder.com/150",
+    images: [
+      "https://via.placeholder.com/300/FFBD33",
+      "https://via.placeholder.com/300/FF5733",
+      "https://via.placeholder.com/300/DAF7A6",
+    ],
+    description: "Médico especializado en el diagnóstico y tratamiento de enfermedades oculares.",
+  },
+];

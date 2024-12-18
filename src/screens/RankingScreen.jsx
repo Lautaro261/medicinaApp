@@ -1,10 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
+import { professionalsRankingData } from '../../data/professionals-datos';
+import { ProfessionalRanking } from '../components/Professionals/professionalRanking/ProfessionalRanking';
 
 export const RankingScreen = () => {
+  //const [restaurants, setRestaurants] = useState(null);
+
+  const renderItem = ({ item, index }) => {
+    return <ProfessionalRanking professional={item} index={index} />;
+  };
+
   return (
     <View style={styles.container}>
-      <Text>RankingScreen</Text>
+      <FlatList
+        data={professionalsRankingData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 };
@@ -12,8 +25,6 @@ export const RankingScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: "#f2f2f2",
   },
 });

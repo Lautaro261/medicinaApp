@@ -22,17 +22,17 @@ export const ProfessionalDetailsScreen = ({ route }) => {
         <View style={styles.header}>
             {/* <Icon name="person-outline"  />  */}
           <Text category="h1" style={styles.name}>
-            {professional.name}
+            {professional.name || "Dr. Juan Pérez"}
           </Text>
         </View>
         <Text category="s1" style={styles.specialty}>
-          Especialidad: {professional.specialty}
+          Especialidad: {professional.specialty || "Pediatra"}
         </Text>
         <Text category="s2" style={styles.location}>
-          Ubicación: {professional.location}
+          Ubicación: {professional.location || "CABA, Argentina"}
         </Text>
         <Text category="p1" style={styles.description}>
-          Descripción: {professional.description}
+          Descripción: {professional.description || "algo algo..."}
         </Text>
         <Button style={styles.button} onPress={() => console.log("Llamar al profesional")}>
           Llamar

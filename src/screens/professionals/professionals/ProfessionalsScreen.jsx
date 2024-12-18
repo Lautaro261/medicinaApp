@@ -1,10 +1,10 @@
 import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import { ListProfessionals } from "../../../components/listProfessionals/ListProfessionals"; // Asegúrate de importar el componente ListProfessionals
 import { professionalsData } from "../../../../data/professionals-datos";
 import { Button, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import { screen } from '../../../utils/ScreenName'
+import { ProfessionalsList } from "../../../components/Professionals/professionalsList/ProfessionalsList";
 
 
 export const ProfessionalsScreen = () => {
@@ -17,7 +17,8 @@ export const ProfessionalsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ListProfessionals professionals={professionalsData} />
+        {/* <ListProfessionals professionals={professionalsData} />  */}
+        <ProfessionalsList professionals={professionalsData}/>
 
       <Button
         style={styles.floatingButton}
