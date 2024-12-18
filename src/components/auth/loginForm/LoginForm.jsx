@@ -1,20 +1,55 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet} from 'react-native';
 import { useFormik } from 'formik';
 import { Layout, Input, Button } from '@ui-kitten/components';
+import { Icon } from '@rneui/themed';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import { screen } from '../../../utils/ScreenName';
+import { initialValues, validationSchema } from './loginForm.data';
+
+//Todo: Agregar icono de ojo para ocultar la contraseña
+
+//Todo: Agregar Toast from "react-native-toast-message"
+
+//Todo: Agregar icono de ojo para ocultar la contraseña showPassword
+
+//Todo: Agregar validacion a name
+
+//Todo: Agregar Manejo de error para los inputs (creo que es con useInoutState)
+
+//Todo agregar LoadingIndicator
 
 export const LoginForm = () => {
 
-    const formik = useFormik({
-        initialValues: {
-          email: '',
-          password: '',
-        },
-        onSubmit: (values) => {
-          console.log('Datos enviados:', values);
-        },
-      });
+  const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigation();
 
+  const onShowHidePassword = () => setShowPassword((prevState) => !prevState);
+
+  const formik = useFormik({
+    initialValues: initialValues(),
+    validationSchema: validationSchema(),
+    validateOnChange: false,
+    onSubmit: async (formValue) => {
+      try {
+        const auth = getAuth();
+        await signInWithEmailAndPassword(
+          auth,
+          formValue.email,
+          formValue.password
+        );
+        navigation.navigate(screen.account.account);
+      } catch (error) {
+        console.log('Error catch:',{error} )
+/*         Toast.show({
+          type: "error",
+          position: "bottom",
+          text1: "Usuario o contraseña incorrectos",
+        }); */
+      }
+    },
+  });
 
   return (
                    /* Contenedor */

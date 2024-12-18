@@ -1,20 +1,51 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import { Layout, Input, Button } from '@ui-kitten/components';
+import { screen } from '../../../utils/ScreenName';
+import { useNavigation } from '@react-navigation/native';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { initialValues, validationSchema } from './registerForm.data';
+
+//Todo: Agregar icono de ojo para ocultar la contraseña showPassword
+
+//Todo: Agregar Toast from "react-native-toast-message"
+
+//Todo: Agregar validacion a name
+
+//Todo: Agregar Manejo de error para los inputs (creo que es con useInoutState)
+
+//Todo agregar LoadingIndicator
 
 export const RegisterForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigation();
+
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
-    onSubmit: (values) => {
-      console.log('Datos enviados:', values);
+    initialValues: initialValues(),
+    validationSchema: validationSchema(),
+    validateOnChange: false,
+    onSubmit: async (formValue) => {
+      try {
+        const auth = getAuth();
+        await createUserWithEmailAndPassword(
+          auth,
+          formValue.email,
+          formValue.password
+        );
+        navigation.navigate(screen.account.account);
+      } catch (error) {
+        console.log('Error catch:',{error} )
+/*         Toast.show({
+          type: "error",
+          position: "bottom",
+          text1: "Error al registrarse, intentelo mas tarde",
+        }); */
+      }
     },
   });
+
+  const showHidenPassword = () => setShowPassword((prevState) => !prevState);
 
   return (
     <Layout style={styles.container}>
@@ -22,7 +53,7 @@ export const RegisterForm = () => {
       <Input
         placeholder="Nombre"
         value={formik.values.name}
-        onChangeText={formik.handleChange('name')}
+        onChangeText={(text) => formik.setFieldValue("name", text)}
         onBlur={formik.handleBlur('name')}
         style={styles.input}
       />
@@ -33,7 +64,7 @@ export const RegisterForm = () => {
         autoCapitalize="none"
         placeholder="Correo electrónico"
         value={formik.values.email}
-        onChangeText={formik.handleChange('email')}
+        onChangeText={(text) => formik.setFieldValue("email", text)}
         onBlur={formik.handleBlur('email')}
         style={styles.input}
       />
@@ -44,7 +75,7 @@ export const RegisterForm = () => {
         placeholder="Contraseña"
         secureTextEntry
         value={formik.values.password}
-        onChangeText={formik.handleChange('password')}
+        onChangeText={(text) => formik.setFieldValue("password", text)}
         onBlur={formik.handleBlur('password')}
         style={styles.input}
       />
@@ -55,7 +86,7 @@ export const RegisterForm = () => {
         placeholder="Repetir Contraseña"
         secureTextEntry
         value={formik.values.confirmPassword}
-        onChangeText={formik.handleChange('confirmPassword')}
+        onChangeText={(text) => formik.setFieldValue("repeatPassword", text)}
         onBlur={formik.handleBlur('confirmPassword')}
         style={styles.input}
       />

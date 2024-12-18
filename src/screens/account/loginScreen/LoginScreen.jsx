@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, Button } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { LoginForm } from '../../../components/auth/loginForm/LoginForm';
 import { screen } from '../../../utils/ScreenName';
@@ -13,6 +13,7 @@ export const LoginScreen = () => {
   const goToRegister = ()=>{
     navigation.navigate(screen.account.register);
   }
+
 
   return (
 
@@ -35,6 +36,8 @@ export const LoginScreen = () => {
     <Text style={styles.footer}>
       ¿No tienes una cuenta? <Text style={styles.link} onPress={goToRegister}>Regístrate</Text>
     </Text>
+
+
   </Layout>
 
   );
@@ -66,5 +69,14 @@ const styles = StyleSheet.create({
   link: {
     color: '#5A189A',
     fontWeight: 'bold',
+  },
+  marco:{
+    marginTop: 15,
+  },
+  button: {
+    backgroundColor: '#7B2CBF',
+    borderColor: '#7B2CBF',
+    borderRadius: 8,
+    margin: 10,
   },
 });

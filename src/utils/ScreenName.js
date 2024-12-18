@@ -26,6 +26,8 @@ const professionalStack = {
     account: "Account",
     login: "Login",
     register: "Register",
+    userGuest: "UserGuest",
+    userLogged: "UserLogged",
   };
   
   export const screen = {
