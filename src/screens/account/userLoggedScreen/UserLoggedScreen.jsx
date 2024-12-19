@@ -20,7 +20,7 @@ export const UserLoggedScreen=()=> {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <InfoUser setLoading={setLoading} setLoadingText={setLoadingText} />
 
       <AccountOptions onReload={onReload} />
@@ -39,18 +39,21 @@ export const UserLoggedScreen=()=> {
 
 
  const styles = StyleSheet.create({
+  container:{
+    backgroundColor:"#F3EAFB ",
+  },
     btnStyles: {
       marginTop: 30,
       paddingVertical: 10,
       borderRadius: 0,
-      backgroundColor: "#fff",
+      backgroundColor: "#000000",
       borderTopWidth: 1,
       borderTopColor: "#e3e3e3",
       borderBottomWidth: 1,
       borderBottomColor: "#e3e3e3",
     },
     btnTextStyle: {
-      color: "#00a680",
+      color: "#fefefe",
     },
   });
   

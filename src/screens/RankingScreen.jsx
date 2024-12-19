@@ -1,30 +1,45 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
-import { professionalsRankingData } from '../../data/professionals-datos';
-import { ProfessionalRanking } from '../components/Professionals/professionalRanking/ProfessionalRanking';
+import React, { useState, useEffect } from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import {
+  collection,
+  query,
+  orderBy,
+  limit,
+  onSnapshot,
+} from "firebase/firestore";
+import { map } from "lodash";
+import { db } from "../utils/firebase";
+import { ProfessionalRanking } from "../components/Professionals/professionalRanking/ProfessionalRanking";
 
-export const RankingScreen = () => {
-  //const [restaurants, setRestaurants] = useState(null);
 
-  const renderItem = ({ item, index }) => {
-    return <ProfessionalRanking professional={item} index={index} />;
-  };
+export const RankingScreen=()=> {
+  const [professionals, setProfessionals] = useState(null);
+
+  useEffect(() => {
+    const q = query(
+      collection(db, "professionals"),
+      orderBy("ratingMedia", "desc"),
+      limit(10)
+    );
+
+    console.log("Prof:", professionals)
+
+    onSnapshot(q, (snapshot) => {
+      setProfessionals(snapshot.docs);
+      console.log("DATA", snapshot.docs);
+    });
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={professionalsRankingData}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <ScrollView>
+      {map(professionals, (professional, index) => (
+        <ProfessionalRanking
+          key={index}
+          index={index}
+          professional={professional.data()}
+        />
+      ))}
+    </ScrollView>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f2f2f2",
-  },
-});

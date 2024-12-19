@@ -6,11 +6,12 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { LoadingModal } from "../../../components/shared/loadingModal/LoadingModal";
 import { ProfessionalsList } from "../../../components/Professionals/professionalsList/ProfessionalsList";
 import { screen } from "../../../utils/ScreenName";
+import { db } from '../../../utils/firebase';
 
 export const ProfessionalsScreen = (props) => {
   const { navigation } = props;
   const [currentUser, setCurrentUser] = useState(null);
-  const [restaurants, setRestaurants] = useState(null);
+  const [professionals, setProfessionals] = useState(null);
 
   useEffect(() => {
     const auth = getAuth();
@@ -19,27 +20,27 @@ export const ProfessionalsScreen = (props) => {
     });
   }, []);
 
-/*   useEffect(() => {
+  useEffect(() => {
     const q = query(
-      collection(db, "restaurants"),
+      collection(db, "professionals"),
       orderBy("createdAt", "desc")
     );
 
     onSnapshot(q, (snapshot) => {
-      setRestaurants(snapshot.docs);
+      setProfessionals(snapshot.docs);
     });
-  }, []); */
+  }, []);
 
-  const goToAddRestaurant = () => {
-    navigation.navigate(screen.restaurant.addRestaurant);
+  const goToAddProfessional = () => {
+    navigation.navigate(screen.professional.addProfessional);
   };
 
   return (
     <View style={styles.content}>
-      {!restaurants ? (
-        <LoadingModal show text="Cargando" />
+      {!professionals ? (
+        <LoadingModal show text="Cargando..." />
       ) : (
-         <ProfessionalsList restaurants={restaurants} />
+         <ProfessionalsList professionals={professionals} />
       )}
 
       {currentUser && (
@@ -49,7 +50,7 @@ export const ProfessionalsScreen = (props) => {
           name="plus"
           color="#00a680"
           containerStyle={styles.btnContainer}
-          onPress={goToAddRestaurant}
+          onPress={goToAddProfessional}
         />
       )}
     </View>
@@ -60,6 +61,7 @@ export const ProfessionalsScreen = (props) => {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
+    backgroundColor: "#ffffff"
   },
   btnContainer: {
     position: "absolute",

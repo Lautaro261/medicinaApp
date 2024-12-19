@@ -1,48 +1,51 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { Text, Button, Card, Icon } from "@ui-kitten/components";
-//import { Carousel } from "../../../components/shared/carousel/Carousel";
-
+import React, { useState, useEffect } from "react";
+import { ScrollView, Dimensions, StyleSheet, Text } from "react-native";
+import { doc, onSnapshot } from "firebase/firestore";
+import { Loading } from "../../../components/shared/loading/Loading";
+import { Carousel } from "../../../components/shared/carousel/Carousel";
+import { Header } from "../../../components/professional/Header/Header";
+import { Info } from "../../../components/professional/info/Info";
+import { BtnReviewForm } from "../../../components/professional/btnReviewForm/BtnReviewForm";
+import { Reviews } from "../../../components/professional/reviews/Reviews";
+//import { Carousel, Loading } from "../../../components/Shared";
+//import {Header,Info,BtnReviewForm,Reviews,BtnFavorite} from "../../../components/Restaurant";
+import { db } from "../../../utils/firebase";
 
 const { width } = Dimensions.get("window");
 
-export const ProfessionalDetailsScreen = ({ route }) => {
-  // Obtener la información del profesional desde los parámetros de navegación
-  const { professional } = route.params;
+export const ProfessionalDetailsScreen = (props) => {
+  const { route } = props;
+  const [professional, setProfessional] = useState(null);
 
   useEffect(() => {
-    console.log(professional);
-  }, []);
+    setProfessional(null);
+    onSnapshot(doc(db, "professionals", route.params.id), (doc) => {
+      console.log("DETALLE",doc.data());
+      setProfessional(doc.data());
+    });
+  }, [route.params.id]);
+
+  if (!professional) return <Loading show text="Cargando profesionales" />;
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-
-      {/* <Carousel /> */}
-       <Card style={styles.card}>
-        <View style={styles.header}>
-            {/* <Icon name="person-outline"  />  */}
-          <Text category="h1" style={styles.name}>
-            {professional.name || "Dr. Juan Pérez"}
-          </Text>
-        </View>
-        <Text category="s1" style={styles.specialty}>
-          Especialidad: {professional.specialty || "Pediatra"}
-        </Text>
-        <Text category="s2" style={styles.location}>
-          Ubicación: {professional.location || "CABA, Argentina"}
-        </Text>
-        <Text category="p1" style={styles.description}>
-          Descripción: {professional.description || "algo algo..."}
-        </Text>
-        <Button style={styles.button} onPress={() => console.log("Llamar al profesional")}>
-          Llamar
-        </Button>
-      </Card> 
+    <ScrollView style={styles.content}>
+      <Carousel arrayImages={professional.images} height={250} width={width} /> 
+      <Header professional={professional} />
+      <Info professional={professional} />
+      <BtnReviewForm idProfessional={route.params.id} />
+      <Reviews idProfessional={route.params.id} />
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  content: {
+    backgroundColor: "#fff",
+  },
+});
+
+
+/* const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F3EAFB", // Fondo morado claro
@@ -92,3 +95,4 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 });
+ */

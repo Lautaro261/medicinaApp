@@ -6,32 +6,32 @@ import { screen } from "../../../utils/ScreenName";
 
 export const ProfessionalsList = (props) => {
   const { professionals } = props;
+  //console.log("LO QUE LLEGA", professionals)
   const navigation = useNavigation();
 
   const goToProfessional = (professional) => {
-    console.log('Click', { professional });
-    //navigation.navigate("ProfessionalDetail", { professional });
-    navigation.navigate(screen.professional.professional, {professional})
+    //console.log('Click', { professional });
+    navigation.navigate(screen.professional.professional, {id: professional.id})
   };
 
   return (
     <FlatList
       data={professionals}
       renderItem={(doc) => {
-        const professional = doc.item;
+        const professional = doc.item.data();
 
         return (
           <TouchableOpacity onPress={() => goToProfessional(professional)}>
             <View style={styles.professional}>
               <Avatar
-                source={{ uri: professional.image || 'https://via.placeholder.com/150' }}
+                source={{ uri: professional.images[0] || 'https://via.placeholder.com/150' }}
                 style={styles.avatar}
               />
 
               <View style={styles.infoContainer}>
                 <Text style={styles.name}>{professional.name || "Dr. Juan Pérez"}</Text>
-                <Text style={styles.specialty}>{professional.specialty || "Pediatra"}</Text>
-                <Text style={styles.location}>{professional.location || "CABA, Argentina"}</Text>
+                <Text style={styles.specialty}>{professional.phone || ""}</Text>
+                <Text style={styles.location}>{ professional.address || "CABA, Argentina"}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -78,6 +78,6 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 12,
-    color: "#AAA", // Gris claro para la ubicación
+    color: "#878686", // Gris claro para la ubicación
   },
 });

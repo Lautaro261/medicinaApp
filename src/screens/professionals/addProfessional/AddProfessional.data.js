@@ -9,6 +9,7 @@ export const initialVales= ()=> {
       description: "",
       location: null,
       images: [],
+      verified: false,
     };
   }
 
@@ -25,5 +26,6 @@ export const initialVales= ()=> {
       images: Yup.array()
         .min(1, "Se requiere una imagen como minimo")
         .required("La imagen es requerida"),
+        verified: Yup.boolean(),
     });
   }

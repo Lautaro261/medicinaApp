@@ -1,16 +1,44 @@
-
-import { StyleSheet, Text, View } from 'react-native';
-//import { Layout, Input } from '@ui-kitten/components';
-
 import React, { useState } from "react";
-import { Input } from "@rneui/themed";
-import { MapForm } from '../mapForm/MapForm';
+import { StyleSheet, View, Alert, Modal, Button } from "react-native";
+import { Input, CheckBox } from "@rneui/themed";
+import {WebView} from "react-native-webview";
+import { handleIntegrationMP } from "../../../../utils/mercadoPago";
+import { getFirestore, doc, updateDoc } from "firebase/firestore";
+import { MapForm } from "../mapForm/MapForm";
 
-export function InfoForm(props) {
+export const InfoForm = (props) => {
   const { formik } = props;
   const [showMap, setShowMap] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState("");
 
   const onOpenCloseMap = () => setShowMap((prevState) => !prevState);
+
+  // Manejo del pago
+  const handlePayment = async () => {
+    try {
+      // Obtén el link de pago
+      const url = await handleIntegrationMP();
+      setPaymentUrl(url);
+      setShowPayment(true);
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Hubo un problema al iniciar el pago.");
+    }
+  };
+
+  // Actualiza Firestore cuando el pago sea exitoso
+  const updateFirestore = async () => {
+    try {
+      const db = getFirestore();
+      const professionalDoc = doc(db, "professionals", formik.values.id); // Cambia "id" por el identificador en Firestore
+      await updateDoc(professionalDoc, { verified: true });
+      Alert.alert("Éxito", "El estado de verificación se actualizó.");
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "No se pudo actualizar la base de datos.");
+    }
+  };
 
   return (
     <>
@@ -48,12 +76,42 @@ export function InfoForm(props) {
           onChangeText={(text) => formik.setFieldValue("description", text)}
           errorMessage={formik.errors.description}
         />
+
+        {/* Nuevo CheckBox */}
+        <CheckBox
+          title="Quiero estar verificado (Coste: $100)"
+          checked={formik.values.verified}
+          onPress={() => formik.setFieldValue("verified", !formik.values.verified)}
+        />
+
+        {/* Botón para iniciar el pago */}
+        <Button title="Pagar con Mercado Pago" onPress={handlePayment} />
       </View>
+
+      {/* Modal con WebView para el pago */}
+      <Modal visible={showPayment} animationType="slide">
+        <WebView
+          source={{ uri: paymentUrl }}
+          onNavigationStateChange={(navState) => {
+            // Detecta redirección a la URL de éxito
+            if (navState.url.includes("success")) {
+              setShowPayment(false);
+              formik.setFieldValue("verified", true); // Actualiza el estado local
+              updateFirestore(); // Guarda en Firestore
+              Alert.alert("Éxito", "¡Pago exitoso!");
+            } else if (navState.url.includes("failure")) {
+              setShowPayment(false);
+              Alert.alert("Error", "El pago falló. Inténtalo nuevamente.");
+            }
+          }}
+        />
+        <Button title="Cerrar" onPress={() => setShowPayment(false)} />
+      </Modal>
 
       <MapForm show={showMap} close={onOpenCloseMap} formik={formik} />
     </>
   );
-}
+};
 
 const getColorIconMap = (formik) => {
   if (formik.errors.location) return "#ff0000";

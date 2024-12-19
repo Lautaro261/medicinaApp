@@ -10,7 +10,15 @@ const Stack = createNativeStackNavigator();
 export const AccountStack = () => {
     //Todo Falta agregar AccountScreen
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#D0B3F1', // Color de fondo global para todos los headers
+      },
+      headerTitleStyle: {
+        color: '#FFFFFF', // Color del texto del título global
+      }
+    }}>
 
       <Stack.Screen name={screen.account.account} component={AccountScreen} options={{ title: "Cuenta" }}/>
 

@@ -1,27 +1,21 @@
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Image, Text, Rating, Icon } from '@rneui/themed';
-import { screen } from '../../../utils/ScreenName';
+import React from "react";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { Image, Text, Rating, Icon } from "@rneui/themed";
+import { useNavigation } from "@react-navigation/native";
+import { screen } from "../../../utils/ScreenName";
 
-export const ProfessionalRanking = (props) =>{
+
+export const  ProfessionalRanking=(props)=> {
   const { professional, index } = props;
   const navigation = useNavigation();
 
   const goToProfessional = () => {
-/*     navigation.navigate(screen.professional.tab, {
+    navigation.navigate(screen.professional.tab, {
       screen: screen.professional.professional,
       params: {
         id: professional.id,
       },
-    }); */
-
-    navigation.navigate(screen.professional.tab, {
-        screen: screen.professional.professional,
-        params: {
-          professional,
-        },
-      });
+    });
   };
 
   const renderMedal = () => {
@@ -41,6 +35,7 @@ export const ProfessionalRanking = (props) =>{
       />
     );
   };
+
 
   return (
     <TouchableOpacity onPress={goToProfessional}>
