@@ -57,7 +57,7 @@ export function AddProfessionalScreen() {
 
  const styles = StyleSheet.create({
   addRestaurant: {
-    backgroundColor: "#F3EAFB",
+    backgroundColor: "#972bf6",
     margin: 20,
   },
 });
