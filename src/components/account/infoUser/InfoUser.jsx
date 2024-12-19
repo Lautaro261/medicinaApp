@@ -10,6 +10,7 @@ export const InfoUser=(props) => {
   const { uid, photoURL, displayName, email } = getAuth().currentUser;
   const [avatar, setAvatar] = useState(photoURL);
 
+  console.log(getAuth().currentUser)
 
   const changeAvatar = async () => {
      const result = await ImagePicker.launchImageLibraryAsync({
@@ -17,7 +18,7 @@ export const InfoUser=(props) => {
       allowsEditing: true,
       aspect: [4, 3],
     });
-    console.log(result)
+    console.log(result.assets[0].uri)
 
     if (!result.canceled) {
       uploadImage(result.assets[0].uri); 

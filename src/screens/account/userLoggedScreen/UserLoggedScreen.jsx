@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Button } from "@rneui/themed";
 import { getAuth, signOut } from "firebase/auth";
-//import { LoadingModal } from "../../../components";
-//import { InfoUser, AccountOptions } from "../../../components/Account";
+import { LoadingModal } from "../../../components/shared/loadingModal/LoadingModal";
 import { InfoUser } from "../../../components/account/infoUser/InfoUser";
+import { AccountOptions } from "../../../components/account/AccountOptions";
 
 
 export const UserLoggedScreen=()=> {
@@ -23,7 +23,7 @@ export const UserLoggedScreen=()=> {
     <View>
       <InfoUser setLoading={setLoading} setLoadingText={setLoadingText} />
 
-     {/*  <AccountOptions onReload={onReload} /> */}
+      <AccountOptions onReload={onReload} />
 
       <Button
         title="Cerrar sesión"
@@ -32,7 +32,7 @@ export const UserLoggedScreen=()=> {
         onPress={logout}
       />
 
-      {/* <LoadingModal show={loading} text={loadingText} /> */}
+      <LoadingModal show={loading} text={loadingText} />
     </View>
   );
 }

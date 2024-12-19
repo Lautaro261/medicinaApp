@@ -6,11 +6,19 @@ import { Image } from '@rneui/themed';
 
 const widthScreen = Dimensions.get("window").width;
 
-export const ImageProfessional = () => {
+export const ImageProfessional = (props) => {
+  const { formik } = props;
+  const primaryImage = formik.values.images[0];
+
+
   return (
     <View style={styles.container}>
         <Image
-        source={require("../../../../../assets/img/image-not-found.jpg")}
+        source={
+          primaryImage 
+          ? {uri: primaryImage}
+          : require("../../../../../assets/img/image-not-found.jpg")
+        }
         style={styles.image}
         />
     </View>

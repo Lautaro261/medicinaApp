@@ -1,36 +1,75 @@
-import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
-import { professionalsData } from "../../../../data/professionals-datos";
-import { Button, Icon } from "@ui-kitten/components";
-import { useNavigation } from "@react-navigation/native";
-import { screen } from '../../../utils/ScreenName'
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Icon } from "@rneui/themed";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { LoadingModal } from "../../../components/shared/loadingModal/LoadingModal";
 import { ProfessionalsList } from "../../../components/Professionals/professionalsList/ProfessionalsList";
+import { screen } from "../../../utils/ScreenName";
 
+export const ProfessionalsScreen = (props) => {
+  const { navigation } = props;
+  const [currentUser, setCurrentUser] = useState(null);
+  const [restaurants, setRestaurants] = useState(null);
 
-export const ProfessionalsScreen = () => {
-  const navigation = useNavigation();
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+  }, []);
 
-  const handlePress = () => {
-    navigation.navigate(screen.professional.addProfessional)
-    // Aquí puedes navegar a otro screen con navigation.navigate('AddProfessional')
+/*   useEffect(() => {
+    const q = query(
+      collection(db, "restaurants"),
+      orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(q, (snapshot) => {
+      setRestaurants(snapshot.docs);
+    });
+  }, []); */
+
+  const goToAddRestaurant = () => {
+    navigation.navigate(screen.restaurant.addRestaurant);
   };
 
   return (
-    <View style={styles.container}>
-        {/* <ListProfessionals professionals={professionalsData} />  */}
-        <ProfessionalsList professionals={professionalsData}/>
+    <View style={styles.content}>
+      {!restaurants ? (
+        <LoadingModal show text="Cargando" />
+      ) : (
+         <ProfessionalsList restaurants={restaurants} />
+      )}
 
-      <Button
-        style={styles.floatingButton}
-        accessoryLeft={(props) => <Icon {...props} name="plus-outline" />}
-        onPress={handlePress}
-      />
-
+      {currentUser && (
+        <Icon
+          reverse
+          type="material-community"
+          name="plus"
+          color="#00a680"
+          containerStyle={styles.btnContainer}
+          onPress={goToAddRestaurant}
+        />
+      )}
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+  },
+  btnContainer: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+  },
+});
+
+
+/* const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff", // Fondo gris claro
@@ -46,4 +85,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#7B2CBF', // Morado intenso para el botón
   },
-});
+}); */

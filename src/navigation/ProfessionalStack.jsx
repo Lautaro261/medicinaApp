@@ -9,17 +9,17 @@ export const ProfessionalStack = () => {
   return (
     <Stack.Navigator>
 
-        <Stack.Screen
+      <Stack.Screen
+      name={screen.professional.addProfessional}
+      component={AddProfessionalScreen}
+      options={{title: "Nuevo Profesional"}}
+      />
+         <Stack.Screen
         name={screen.professional.professionals}
         component={ProfessionalsScreen}
         options={{title: "Profesionales"}}
-        />
+        /> 
 
-        <Stack.Screen
-        name={screen.professional.addProfessional}
-        component={AddProfessionalScreen}
-        options={{title: "Nuevo Profesional"}}
-        />
 
         <Stack.Screen
         name={screen.professional.professional}

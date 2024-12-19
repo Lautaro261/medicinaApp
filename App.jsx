@@ -1,4 +1,5 @@
 import './gesture-handler';
+import 'react-native-get-random-values'
 import { LogBox } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';

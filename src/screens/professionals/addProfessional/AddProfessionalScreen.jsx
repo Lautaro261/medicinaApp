@@ -1,51 +1,70 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { ImageProfessional } from '../../../components/Professionals/addProfessional/imageProfessional/ImageProfessional';
-import { InfoForm } from '../../../components/Professionals/addProfessional/InfoForm/InfoForm';
-import { useFormik } from 'formik';
-import { initialVales } from './AddProfessional.data';
-import { Button, Layout } from '@ui-kitten/components';
+import React from "react";
+import { ScrollView, StyleSheet} from "react-native";
+import { Button } from "@rneui/themed";
+import { useFormik } from "formik";
+import { v4 as uuid } from "uuid";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
 
 
-//Todo falta agregar validaciones con yup, armar dato con uuid y new Date
-export const AddProfessionalScreen = () => {
-    
-    const formik = useFormik({
-        initialValues: initialVales(),
-        //validationSchema: validationSchema(),
-        //validateOnChange: false,
-        onSubmit: async (formValue) => {
-          try {
-            const newData = formValue;
-            //newData.id = uuid();
-            //newData.createdAt = new Date();
-    
-            console.log({newData})
-    
-            //navigation.goBack();
-          } catch (error) {
-            console.log(error);
-          }
-        },
-      });
+import { InfoForm } from "../../../components/Professionals/addProfessional/InfoForm/InfoForm";
+import { UploadImagesForm } from "../../../components/Professionals/addProfessional/uploadImagesForm/UploadImagesForm";
+import { ImageProfessional } from "../../../components/Professionals/addProfessional/imageProfessional/ImageProfessional";
+
+import { db } from '../../../utils/firebase';
+import { initialVales, validationSchema } from "./AddProfessional.data";
+
+export function AddProfessionalScreen() {
+  const navigation = useNavigation();
+
+  const formik = useFormik({
+    initialValues: initialVales(),
+    validationSchema: validationSchema(),
+    validateOnChange: false,
+    onSubmit: async (formValue) => {
+      try {
+        const newData = formValue;
+        newData.id = uuid();
+        newData.createdAt = new Date();
+        console.log(newData);
+
+        await setDoc(doc(db, "professionals", newData.id), newData);
+
+        navigation.goBack();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
   return (
-    <Layout style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <ImageProfessional formik={formik} />
 
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
-        <ImageProfessional formik={formik}/>
-        <InfoForm formik={formik}/>
+      <InfoForm formik={formik} />
 
+      <UploadImagesForm formik={formik} />
 
-        <Button onPress={formik.handleSubmit} style={styles.button}>
-            Crear Professional
-          </Button>
+      <Button
+        title="Crear Servicio"
+        buttonStyle={styles.addRestaurant}
+        onPress={formik.handleSubmit}
+        loading={formik.isSubmitting}
+      />
     </ScrollView>
-    </Layout>
   );
-};
+}
 
-const styles = StyleSheet.create({
+ const styles = StyleSheet.create({
+  addRestaurant: {
+    backgroundColor: "#F3EAFB",
+    margin: 20,
+  },
+});
+
+
+
+/* const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#F3EAFB', // Color coherente con LoginForm
@@ -59,4 +78,4 @@ const styles = StyleSheet.create({
       borderColor: '#7B2CBF',
       borderRadius: 8,
     },
-  });
+  }); */
