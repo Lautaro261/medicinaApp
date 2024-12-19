@@ -1,16 +1,14 @@
 import React from "react";
 import { View, FlatList, TouchableOpacity, StyleSheet } from "react-native";
-import { Text, Avatar } from "@ui-kitten/components";
+import { Text, Avatar, Icon } from "@ui-kitten/components"; // Importar Icon
 import { useNavigation } from "@react-navigation/native";
 import { screen } from "../../../utils/ScreenName";
 
 export const ProfessionalsList = (props) => {
   const { professionals } = props;
-  //console.log("LO QUE LLEGA", professionals)
   const navigation = useNavigation();
 
   const goToProfessional = (professional) => {
-    //console.log('Click', { professional });
     navigation.navigate(screen.professional.professional, {id: professional.id})
   };
 
@@ -29,7 +27,16 @@ export const ProfessionalsList = (props) => {
               />
 
               <View style={styles.infoContainer}>
-                <Text style={styles.name}>{professional.name || "Dr. Juan Pérez"}</Text>
+                <View style={styles.nameContainer}>
+                  <Text style={styles.name}>{professional.name || "Dr. Juan Pérez"}</Text>
+                  {professional.verified && (
+                    <Icon 
+                      name="checkmark-circle-2" 
+                      fill="#3D9CFF" 
+                      style={styles.verifiedIcon} // Estilo para el icono
+                    />
+                  )}
+                </View>
                 <Text style={styles.specialty}>{professional.phone || ""}</Text>
                 <Text style={styles.location}>{ professional.address || "CABA, Argentina"}</Text>
               </View>
@@ -39,7 +46,7 @@ export const ProfessionalsList = (props) => {
       }}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   professional: {
@@ -65,6 +72,10 @@ const styles = StyleSheet.create({
   infoContainer: {
     flex: 1,
   },
+  nameContainer: {
+    flexDirection: "row", // Asegura que el nombre y el icono estén en la misma fila
+    alignItems: "center", // Centra el icono verticalmente
+  },
   name: {
     fontSize: 18,
     fontWeight: "bold",
@@ -80,4 +91,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#878686", // Gris claro para la ubicación
   },
+  verifiedIcon: {
+    marginLeft: 8, // Espaciado entre el nombre y el ícono
+    width: 20,
+    height: 20,
+  },
 });
+
