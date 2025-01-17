@@ -27,8 +27,8 @@ export const Reviews=(props)=> {
     );
 
     onSnapshot(q, (snapshot) => {
-      console.log(snapshot.docs)
-        //setReviews(snapshot.docs);
+      //console.log(snapshot.docs)
+        setReviews(snapshot.docs);
     });
   }, []);
 

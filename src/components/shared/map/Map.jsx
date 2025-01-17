@@ -5,7 +5,7 @@ import openMap from "react-native-open-maps";
 
 export const Map = (props)=> {
   const { location, name } = props;
-  console.log(location)
+  //console.log(location)
 
   const openAppMap = () => {
     openMap({

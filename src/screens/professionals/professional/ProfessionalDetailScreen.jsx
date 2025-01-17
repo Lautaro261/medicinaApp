@@ -20,7 +20,7 @@ export const ProfessionalDetailsScreen = (props) => {
   useEffect(() => {
     setProfessional(null);
     onSnapshot(doc(db, "professionals", route.params.id), (doc) => {
-      console.log("DETALLE",doc.data());
+      //console.log("DETALLE",doc.data());
       setProfessional(doc.data());
     });
   }, [route.params.id]);
@@ -96,3 +96,5 @@ const styles = StyleSheet.create({
   },
 });
  */
+
+

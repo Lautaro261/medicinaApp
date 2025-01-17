@@ -5,7 +5,7 @@ import { Text, Rating } from "@rneui/themed";
 
 export const Header=(props)=> {
   const { professional } = props;
-  console.log(professional)
+  //console.log(professional)
 
   return (
     <View style={styles.content}>
