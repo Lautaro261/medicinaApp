@@ -9,6 +9,7 @@ import { AccountStack } from "./AccountStack";
 import { SearchStack } from "./SearchStack";
 import { Icon } from "@ui-kitten/components";
 import { RankingStack } from "./RankingStack";
+import { AppointmentStack } from "./AppointmentStack";
 
 //const Stack = createStackNavigator();
 // Todo Cambiar createStactNavigator por Tab
@@ -41,8 +42,9 @@ return(
     >
         <Tab.Screen name={screen.professional.tab} component={ProfessionalStack} options={{title:"Profesionales"}}/>
         <Tab.Screen name={screen.search.tab} component={SearchStack} options={{title: "Buscar"}}/>
-        <Tab.Screen name={screen.account.tab} component={AccountStack} options={{title: "Cuenta"}}/>
+        <Tab.Screen name={screen.appointment.tab} component={AppointmentStack} options={{title: "Turnos"}}/>
         <Tab.Screen name={screen.ranking.tab} component={RankingStack} options={{title: "Ranking"}}/>
+        <Tab.Screen name={screen.account.tab} component={AccountStack} options={{title: "Cuenta"}}/>
 
 
 
@@ -71,6 +73,8 @@ function screenOptions(route, color, size) {
         iconName = "star-outline";
     } else if (route.name === screen.account.tab) {
       iconName = "person-outline";
+    } else if (route.name === screen.appointment.tab) {
+      iconName = "calendar-outline";
     } else {
       iconName = "question-mark-outline"; // Fallback icon
     }

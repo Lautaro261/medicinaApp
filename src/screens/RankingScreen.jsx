@@ -26,7 +26,7 @@ export const RankingScreen=()=> {
 
     onSnapshot(q, (snapshot) => {
       setProfessionals(snapshot.docs);
-      console.log("DATA", snapshot.docs);
+      //console.log("DATA", snapshot.docs);
     });
   }, []);
 

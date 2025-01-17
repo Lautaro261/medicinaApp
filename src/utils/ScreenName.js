@@ -29,6 +29,13 @@ const professionalStack = {
     userGuest: "UserGuest",
     userLogged: "UserLogged",
   };
+
+  const appointmentStack = {
+    tab: "AppointmentsTab",
+    myAppointments: "MyAppointments", // Mis turnos
+    availableAppointments: "AvailableAppointments", // Lista de turnos disponibles
+    appointmentForm: "AppointmentForm", // Formulario de turno
+  };
   
   export const screen = {
     professional: professionalStack,
@@ -36,5 +43,6 @@ const professionalStack = {
     ranking: rankingStack,
     search: searchStack,
     account: accountStack,
+    appointment: appointmentStack, // Nuevo stack agregado
   };
   
