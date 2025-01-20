@@ -7,6 +7,9 @@ import { Header } from "../../../components/professional/Header/Header";
 import { Info } from "../../../components/professional/info/Info";
 import { BtnReviewForm } from "../../../components/professional/btnReviewForm/BtnReviewForm";
 import { Reviews } from "../../../components/professional/reviews/Reviews";
+import { Button } from "@ui-kitten/components";
+import { useNavigation } from "@react-navigation/native";
+import { screen } from "../../../utils/ScreenName";
 //import { Carousel, Loading } from "../../../components/Shared";
 //import {Header,Info,BtnReviewForm,Reviews,BtnFavorite} from "../../../components/Restaurant";
 import { db } from "../../../utils/firebase";
@@ -16,6 +19,17 @@ const { width } = Dimensions.get("window");
 export const ProfessionalDetailsScreen = (props) => {
   const { route } = props;
   const [professional, setProfessional] = useState(null);
+  const navigation = useNavigation();
+
+  const goToAppointments = ()=>{
+    navigation.navigate(screen.appointment.tab, {
+      screen: screen.appointment.availableAppointments,
+      params: {
+        id: professional.id,
+        name: professional.name
+      }
+    })
+  }
 
   useEffect(() => {
     setProfessional(null);
@@ -31,6 +45,7 @@ export const ProfessionalDetailsScreen = (props) => {
     <ScrollView style={styles.content}>
       <Carousel arrayImages={professional.images} height={250} width={width} /> 
       <Header professional={professional} />
+      <Button onPress={goToAppointments}>Obtener Turno</Button>
       <Info professional={professional} />
       <BtnReviewForm idProfessional={route.params.id} />
       <Reviews idProfessional={route.params.id} />

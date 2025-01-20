@@ -5,8 +5,10 @@ import { getAppointments } from "../../../../data/professionals-datos"; // Servi
 import { useNavigation } from "@react-navigation/native";
 import { screen } from "../../../utils/ScreenName";
 
-export const AvailableAppointmentsScreen = () => {
+export const AvailableAppointmentsScreen = (props) => {
+  const { route } = props;
   const [appointments, setAppointments] = useState([]);
+  console.log(route.params)
 
   useEffect(() => {
     // Simulamos una carga de datos (puedes usar Firestore aquí)
