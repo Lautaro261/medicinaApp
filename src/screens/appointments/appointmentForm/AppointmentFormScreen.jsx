@@ -5,8 +5,9 @@ import { useNavigation } from "@react-navigation/native";
 import { screen } from "../../../utils/ScreenName";
 
 export const AppointmentFormScreen = ({ route }) => {
-  const { date, time } = route.params;
-   const navigation = useNavigation();
+  const { date, time, professional } = route.params;
+  const navigation = useNavigation();
+
   // Estados para los inputs y el modal
   const [formData, setFormData] = useState({
     fullName: "",
@@ -26,25 +27,26 @@ export const AppointmentFormScreen = ({ route }) => {
   // Acción al presionar el botón "Reservar"
   const handleReserve = () => {
     setVisible(true);
-    console.log("Datos del formulario:", formData);
   };
 
   // Cerrar el modal y navegar a la pantalla correspondiente
-  const navigateToHome = () => {
+  const handleCancel = () => {
     setVisible(false);
-    navigation.navigate(screen.professional.professionals);
   };
 
-  const navigateToAppointments = () => {
+  const handleConfirm = () => {
     setVisible(false);
-    navigation.navigate(screen.appointment.myAppointments);
+    navigation.navigate(screen.appointment.myAppointments, { date, time, professional });
   };
 
   return (
     <Layout style={styles.container}>
       {/* Título */}
       <Text style={styles.title} category="h4">
-        Turno: {date}
+        Turno para: {professional?.name}
+      </Text>
+      <Text style={styles.subtitle} category="s1">
+        Fecha: {date}
       </Text>
       <Text style={styles.subtitle} category="s1">
         Hora: {time}
@@ -79,27 +81,41 @@ export const AppointmentFormScreen = ({ route }) => {
         </Button>
       </View>
 
-
       {/* Modal de confirmación */}
       <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisible(false)}
+        onBackdropPress={handleCancel}
       >
         <Card disabled={true}>
           <Text style={styles.modalText}>
-            ¡Tu turno fue registrado con éxito!
+            Está por reservar un turno:
+          </Text>
+          <Text style={styles.modalText}>
+            {professional?.name}
+          </Text>
+          <Text style={styles.modalText}>
+            Día: {date}
+          </Text>
+          <Text style={styles.modalText}>
+            Hora: {time}
+          </Text>
+          <Text style={styles.modalText}>
+            Para hacer la reserva tendrá un coste de $500.
           </Text>
           <View style={styles.modalButtonsContainer}>
             <Button
               style={styles.modalButton}
               appearance="outline"
-              onPress={navigateToHome}
+              onPress={handleCancel}
             >
-              Ir al inicio
+              Cancelar
             </Button>
-            <Button style={styles.modalButton} onPress={navigateToAppointments}>
-              Ver mis turnos
+            <Button
+              style={styles.modalButton}
+              onPress={handleConfirm}
+            >
+              Confirmar y seguir
             </Button>
           </View>
         </Card>
@@ -138,7 +154,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     textAlign: "center",
-    marginBottom: 16,
+    marginBottom: 8,
     color: "#5A189A",
   },
   modalButtonsContainer: {
