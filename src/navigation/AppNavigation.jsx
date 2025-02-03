@@ -42,7 +42,7 @@ return(
     >
         <Tab.Screen name={screen.professional.tab} component={ProfessionalStack} options={{title:"Profesionales"}}/>
         <Tab.Screen name={screen.search.tab} component={SearchStack} options={{title: "Buscar"}}/>
-        <Tab.Screen name={screen.appointment.tab} component={AppointmentStack} options={{title: "Turnos"}}/>
+        <Tab.Screen name={screen.appointment.tab} component={AppointmentStack} options={{title: "Mis Turnos"}}/>
         <Tab.Screen name={screen.ranking.tab} component={RankingStack} options={{title: "Ranking"}}/>
         <Tab.Screen name={screen.account.tab} component={AccountStack} options={{title: "Cuenta"}}/>
 

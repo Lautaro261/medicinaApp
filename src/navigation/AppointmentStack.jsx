@@ -17,12 +17,12 @@ export const AppointmentStack = () => {
             color: '#FFFFFF', // Color del texto del título global
           }
         }}>
+          <Stack.Screen name={screen.appointment.myAppointments} component={MyAppointmentsScreen} options={{ title: "Mis turnos" }}/>
     
           <Stack.Screen name={screen.appointment.availableAppointments} component={AvailableAppointmentsScreen} options={{ title: "Disponibilidad" }}/>
     
           <Stack.Screen name={screen.appointment.appointmentForm} component={AppointmentFormScreen} options={{ title: "Formulario" }}/>
 
-          <Stack.Screen name={screen.appointment.myAppointments} component={MyAppointmentsScreen} options={{ title: "Mis turnos" }}/>
     
     
         </Stack.Navigator>
