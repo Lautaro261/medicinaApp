@@ -4,6 +4,7 @@ const professionalStack = {
     addProfessional: "AddProfessional",
     professional: "Professional",
     addReviewProfessional: "AddReviewProfessional",
+    verificationProfessional: "VerificationProfessional",
   };
   
   const favoritesStack = {

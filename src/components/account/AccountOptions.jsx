@@ -6,6 +6,7 @@ import { Modal } from "../shared/modal/Modal";
 import { ChangeDisplayNameForm } from "./changeDisplayNameForm/ChangeDisplayNameForm";
 import { ChangeEmailForm } from "./changeEmailForm/ChangeEmailForm";
 import { ChangePasswordForm } from "./changePasswordForm/ChangePasswordForm";
+import { ChangeGeneralForm } from "./changeGeneralForm/ChangeGeneralForm";
 
 export function AccountOptions(props) {
   const { onReload } = props;
@@ -22,15 +23,19 @@ export function AccountOptions(props) {
       );
     }
 
-     if (key === "email") {
+    if (key === "email") {
       setRenderComponent(
         <ChangeEmailForm onClose={onCloseOpenModal} onReload={onReload} />
       );
-    } 
+    }
 
-     if (key === "password") {
+    if (key === "password") {
       setRenderComponent(<ChangePasswordForm onClose={onCloseOpenModal} />);
-    } 
+    }
+
+    if (key === "generalInfo") { // 👈 Nueva opción
+      setRenderComponent(<ChangeGeneralForm onClose={onCloseOpenModal} onReload={onReload} />);
+    }
 
     onCloseOpenModal();
   };
@@ -50,7 +55,7 @@ export function AccountOptions(props) {
             <ListItem.Title>{menu.title}</ListItem.Title>
           </ListItem.Content>
           <Icon
-            tyoe={menu.iconType}
+            type={menu.iconType}
             name={menu.iconNameRight}
             color={menu.iconColorRight}
           />
@@ -64,34 +69,42 @@ export function AccountOptions(props) {
   );
 }
 
-function getMenuOptions(selectedComponent) {
-  return [
-    {
-      title: "Cambiar Nombre y Apellidos",
-      iconType: "material-community",
-      iconNameLeft: "account-circle",
-      iconColorLeft: "#ccc",
-      iconNameRight: "chevron-right",
-      iconColorRight: "#ccc",
-      onPress: () => selectedComponent("displayName"),
-    },
-    {
-      title: "Cambiar Email",
-      iconType: "material-community",
-      iconNameLeft: "at",
-      iconColorLeft: "#ccc",
-      iconNameRight: "chevron-right",
-      iconColorRight: "#ccc",
-      onPress: () => selectedComponent("email"),
-    },
-    {
-      title: "Cambiar contraseña",
-      iconType: "material-community",
-      iconNameLeft: "lock-reset",
-      iconColorLeft: "#ccc",
-      iconNameRight: "chevron-right",
-      iconColorRight: "#ccc",
-      onPress: () => selectedComponent("password"),
-    },
-  ];
-}
+// 🔹 Agregamos la nueva opción en el menú
+const getMenuOptions = (selectedComponent) => [
+  {
+    title: "Cambiar Nombre y Apellido",
+    iconType: "material-community",
+    iconNameLeft: "account-circle",
+    iconColorLeft: "#ccc",
+    iconNameRight: "chevron-right",
+    iconColorRight: "#ccc",
+    onPress: () => selectedComponent("displayName"),
+  },
+  {
+    title: "Cambiar Correo Electrónico",
+    iconType: "material-community",
+    iconNameLeft: "email",
+    iconColorLeft: "#ccc",
+    iconNameRight: "chevron-right",
+    iconColorRight: "#ccc",
+    onPress: () => selectedComponent("email"),
+  },
+  {
+    title: "Cambiar Contraseña",
+    iconType: "material-community",
+    iconNameLeft: "lock",
+    iconColorLeft: "#ccc",
+    iconNameRight: "chevron-right",
+    iconColorRight: "#ccc",
+    onPress: () => selectedComponent("password"),
+  },
+  {
+    title: "Información General", // 👈 Nueva opción
+    iconType: "material-community",
+    iconNameLeft: "account-details",
+    iconColorLeft: "#ccc",
+    iconNameRight: "chevron-right",
+    iconColorRight: "#ccc",
+    onPress: () => selectedComponent("generalInfo"),
+  },
+];

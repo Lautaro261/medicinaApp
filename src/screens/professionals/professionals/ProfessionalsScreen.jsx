@@ -1,34 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Icon } from "@rneui/themed";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, doc, getDoc } from "firebase/firestore";
 import { LoadingModal } from "../../../components/shared/loadingModal/LoadingModal";
 import { ProfessionalsList } from "../../../components/Professionals/professionalsList/ProfessionalsList";
 import { screen } from "../../../utils/ScreenName";
-import { db } from '../../../utils/firebase';
+import { db } from "../../../utils/firebase";
 
 export const ProfessionalsScreen = (props) => {
   const { navigation } = props;
   const [currentUser, setCurrentUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const [professionals, setProfessionals] = useState(null);
 
   useEffect(() => {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+      if (user) {
+        await fetchUserRole(user.uid);
+      } else {
+        setUserRole(null);
+      }
     });
+
+    return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    const q = query(
-      collection(db, "professionals"),
-      orderBy("createdAt", "desc")
-    );
+  const fetchUserRole = async (uid) => {
+    try {
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        setUserRole(userSnap.data().role);
+      } else {
+        setUserRole(null);
+      }
+    } catch (error) {
+      console.error("Error al obtener el rol del usuario:", error);
+      setUserRole(null);
+    }
+  };
 
-    onSnapshot(q, (snapshot) => {
+  useEffect(() => {
+    const q = query(collection(db, "professionals"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       setProfessionals(snapshot.docs);
     });
+
+    return () => unsubscribe();
   }, []);
 
   const goToAddProfessional = () => {
@@ -40,10 +61,10 @@ export const ProfessionalsScreen = (props) => {
       {!professionals ? (
         <LoadingModal show text="Cargando..." />
       ) : (
-         <ProfessionalsList professionals={professionals} />
+        <ProfessionalsList professionals={professionals} />
       )}
 
-      {currentUser && (
+      {currentUser && userRole === "professional" && (
         <Icon
           reverse
           type="material-community"
@@ -55,13 +76,12 @@ export const ProfessionalsScreen = (props) => {
       )}
     </View>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
   },
   btnContainer: {
     position: "absolute",

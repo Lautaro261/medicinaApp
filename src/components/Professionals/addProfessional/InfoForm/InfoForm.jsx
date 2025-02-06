@@ -78,14 +78,14 @@ export const InfoForm = (props) => {
         />
 
         {/* Nuevo CheckBox */}
-        <CheckBox
+{/*         <CheckBox
           title="Quiero estar verificado (Coste: $100)"
           checked={formik.values.verified}
           onPress={() => formik.setFieldValue("verified", !formik.values.verified)}
-        />
+        /> */}
 
         {/* Botón para iniciar el pago */}
-        <Button title="Pagar con Mercado Pago" onPress={handlePayment} />
+        {/* <Button title="Pagar con Mercado Pago" onPress={handlePayment} /> */}
       </View>
 
       {/* Modal con WebView para el pago */}

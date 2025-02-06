@@ -4,6 +4,7 @@ import { ProfessionalsScreen } from "../screens/professionals/professionals/Prof
 import { ProfessionalDetailsScreen } from "../screens/professionals/professional/ProfessionalDetailScreen";
 import { AddProfessionalScreen } from "../screens/professionals/addProfessional/AddProfessionalScreen";
 import { AddReviewProfessionalScreen } from "../screens/professionals/addReviewProfessional/AddReviewProfessional";
+import { VerificationProfessionalScreen } from "../screens/professionals/verificationProfessional/VerificationProfessionalScreen";
 const Stack = createNativeStackNavigator();
 
 export const ProfessionalStack = () => {
@@ -42,7 +43,12 @@ export const ProfessionalStack = () => {
         component={AddReviewProfessionalScreen}
         options={{title: "Nueva opnión"}}
         />
-
+        
+        <Stack.Screen
+        name={screen.professional.verificationProfessional}
+        component={VerificationProfessionalScreen}
+        options={{title: "Verificación"}}
+        />
     
     </Stack.Navigator>
   );
