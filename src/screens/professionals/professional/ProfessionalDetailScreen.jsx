@@ -7,7 +7,7 @@ import { Header } from "../../../components/professional/Header/Header";
 import { Info } from "../../../components/professional/info/Info";
 import { BtnReviewForm } from "../../../components/professional/btnReviewForm/BtnReviewForm";
 import { Reviews } from "../../../components/professional/reviews/Reviews";
-import { Button } from "@ui-kitten/components";
+import { Button, Icon } from "@ui-kitten/components"; // Importar Icon
 import { useNavigation } from "@react-navigation/native";
 import { screen } from "../../../utils/ScreenName";
 import { db } from "../../../utils/firebase";
@@ -48,14 +48,15 @@ export const ProfessionalDetailsScreen = (props) => {
           <Carousel arrayImages={professional.images} height={250} width={width} />
           <Header professional={professional} />
 
-
           <Button
-          onPress={goToAppointments}
-          style={styles.button}
-          appearance="filled"
-          activeOpacity={0.7}
-          >Obtener Turno</Button>
-
+            onPress={goToAppointments}
+            style={styles.button}
+            appearance="filled"
+            activeOpacity={0.7}
+            accessoryLeft={() => <Icon name="calendar" fill="#fff" style={styles.icon} />} // Icono agregado
+          >
+            Obtener Turno
+          </Button>
 
           <Info professional={professional} />
           
@@ -78,6 +79,10 @@ const styles = StyleSheet.create({
     borderColor: "#7B2CBF",
     borderRadius: 8,
     marginHorizontal: 60,
+  },
+  icon: {
+    width: 20,
+    height: 20,
   }
 });
 

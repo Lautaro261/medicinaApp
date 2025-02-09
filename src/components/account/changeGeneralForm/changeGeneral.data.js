@@ -1,11 +1,11 @@
 import * as Yup from "yup";
 
 // Función para inicializar los valores
-export const initialValues = () => {
+export const initialValues = (userData) => {
   return {
-    address: "",
-    phone: "",
-    dni: "",
+    address: userData?.address || "",
+    phone: userData?.phone || "",
+    dni: userData?.dni ? String(userData.dni) : "",
   };
 };
 

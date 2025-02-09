@@ -8,8 +8,7 @@ import { ChangeEmailForm } from "./changeEmailForm/ChangeEmailForm";
 import { ChangePasswordForm } from "./changePasswordForm/ChangePasswordForm";
 import { ChangeGeneralForm } from "./changeGeneralForm/ChangeGeneralForm";
 
-export function AccountOptions(props) {
-  const { onReload } = props;
+export function AccountOptions({ onReload }) {
 
   const [showModal, setShowModal] = useState(false);
   const [renderComponent, setRenderComponent] = useState(null);
@@ -69,7 +68,7 @@ export function AccountOptions(props) {
   );
 }
 
-// 🔹 Agregamos la nueva opción en el menú
+//  Agregamos la nueva opción en el menú
 const getMenuOptions = (selectedComponent) => [
   {
     title: "Cambiar Nombre y Apellido",
@@ -99,7 +98,7 @@ const getMenuOptions = (selectedComponent) => [
     onPress: () => selectedComponent("password"),
   },
   {
-    title: "Información General", // 👈 Nueva opción
+    title: "Información General",
     iconType: "material-community",
     iconNameLeft: "account-details",
     iconColorLeft: "#ccc",

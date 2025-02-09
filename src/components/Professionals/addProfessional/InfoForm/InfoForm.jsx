@@ -5,6 +5,7 @@ import {WebView} from "react-native-webview";
 import { handleIntegrationMP } from "../../../../utils/mercadoPago";
 import { getFirestore, doc, updateDoc } from "firebase/firestore";
 import { MapForm } from "../mapForm/MapForm";
+//TODO: Arreglar el pago.
 
 export const InfoForm = (props) => {
   const { formik } = props;
@@ -61,11 +62,13 @@ export const InfoForm = (props) => {
         />
         <Input
           placeholder="Telefono"
+          keyboardType="numeric" // Abre el teclado numérico
           onChangeText={(text) => formik.setFieldValue("phone", text)}
           errorMessage={formik.errors.phone}
         />
         <Input
           placeholder="Email"
+          keyboardType="email-address" // Abre el teclado con el @
           onChangeText={(text) => formik.setFieldValue("email", text)}
           errorMessage={formik.errors.email}
         />
@@ -77,15 +80,6 @@ export const InfoForm = (props) => {
           errorMessage={formik.errors.description}
         />
 
-        {/* Nuevo CheckBox */}
-{/*         <CheckBox
-          title="Quiero estar verificado (Coste: $100)"
-          checked={formik.values.verified}
-          onPress={() => formik.setFieldValue("verified", !formik.values.verified)}
-        /> */}
-
-        {/* Botón para iniciar el pago */}
-        {/* <Button title="Pagar con Mercado Pago" onPress={handlePayment} /> */}
       </View>
 
       {/* Modal con WebView para el pago */}

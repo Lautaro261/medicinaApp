@@ -30,3 +30,4 @@ export const App = () => {
     </>
   );
 };
+//TODO: agregar iconos a los botones.

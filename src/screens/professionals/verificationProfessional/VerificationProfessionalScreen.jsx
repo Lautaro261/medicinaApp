@@ -4,6 +4,7 @@ import { Button, Text, Layout } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { handleIntegrationMP } from '../../../utils/mercadoPago';
 import { PaymentModal } from '../../../components/professional/paymentModal/PaymentModal';
+import { screen } from "../../../utils/ScreenName";
 
 export function VerificationProfessionalScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -11,7 +12,7 @@ export function VerificationProfessionalScreen() {
 
   // Función para navegar a la pantalla de profesionales
   const handleGoHome = () => {
-    navigation.navigate("ProfessionalsScreen");
+    navigation.navigate(screen.professional.professionals);
   };
 
   // Función para mostrar el modal de verificación
@@ -67,7 +68,7 @@ export function VerificationProfessionalScreen() {
           activeOpacity={0.7}
           appearance='filled'
         >
-          Quiero verificarme
+         Verificarme
         </Button>
       </Layout>
 
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     gap: 20,
+    backgroundColor: '#F3EAFB',
   },
   buttonPrimary: {
     backgroundColor: '#5A189A', 

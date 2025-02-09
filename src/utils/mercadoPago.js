@@ -9,7 +9,7 @@ export const handleIntegrationMP = async () => {
                 "description": "Adquisición de Verificado",
                 "quantity": 1,
                 "currency_id": "$",
-                "unit_price": 100
+                "unit_price": 1
             }
         ]
     }
@@ -42,7 +42,7 @@ export const handleIntegrationMPAppointment = async () => {
           description: "Pago por reserva de turno con profesional de salud",
           quantity: 1,
           currency_id: "ARS",
-          unit_price: 500, // Precio actualizado
+          unit_price: 1, // Precio actualizado
         },
       ],
     };

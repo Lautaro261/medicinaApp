@@ -62,8 +62,7 @@ export const RegisterForm = () => {
           first_name: formValue.first_name,
           last_name: formValue.last_name,
           role: selectedRole,
-          verified: false,
-          registroCompletado: false,
+          registrationCompleted: false,
           createdAt: new Date().toISOString(),
         });
 
@@ -83,9 +82,9 @@ export const RegisterForm = () => {
   // Función para obtener el icono del rol seleccionado
   const renderRoleIcon = (role) => {
     switch (role) {
-      case 'cliente':
+      case 'client':
         return <Icon name="person-outline" width={24} height={24} />;
-      case 'profesional':
+      case 'professional':
         return <Icon name="briefcase-outline" width={24} height={24} />;
       default:
         return null;
@@ -166,20 +165,20 @@ export const RegisterForm = () => {
       <Text category="s1" style={styles.label}>Selecciona tu rol:</Text>
       <View style={styles.roleContainer}>
         <Button
-          onPress={() => setSelectedRole('cliente')}
-          appearance={selectedRole === 'cliente' ? 'filled' : 'outline'}
+          onPress={() => setSelectedRole('client')}
+          appearance={selectedRole === 'client' ? 'filled' : 'outline'}
           style={styles.roleButton}
-          accessoryLeft={() => renderRoleIcon('cliente')}
+          accessoryLeft={() => renderRoleIcon('client')}
         >
-          Cliente
+          Client
         </Button>
         <Button
-          onPress={() => setSelectedRole('profesional')}
-          appearance={selectedRole === 'profesional' ? 'filled' : 'outline'}
+          onPress={() => setSelectedRole('professional')}
+          appearance={selectedRole === 'professional' ? 'filled' : 'outline'}
           style={styles.roleButton}
-          accessoryLeft={() => renderRoleIcon('profesional')}
+          accessoryLeft={() => renderRoleIcon('professional')}
         >
-          Profesional
+          Professional
         </Button>
       </View>
 

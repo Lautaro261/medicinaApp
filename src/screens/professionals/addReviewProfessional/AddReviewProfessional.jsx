@@ -40,7 +40,7 @@ export const AddReviewProfessionalScreen = (props) => {
         newData.createdAt = new Date();
 
         await setDoc(doc(db, "reviews", idDoc), newData);
-        await updateProfessional();
+        await updateProfessional(); // Actualiza el ratingMedia después de agregar la reseña
         formik.resetForm(); 
         Toast.show({
           type: "success",
@@ -66,9 +66,9 @@ export const AddReviewProfessionalScreen = (props) => {
       const reviews = snapshot.docs;
       const arrayStars = map(reviews, (review) => review.data().rating);
 
-      const media = mean(arrayStars);
+      const media = arrayStars.length > 0 ? mean(arrayStars) : 0; // Calcular media solo si hay reseñas
 
-      const professionalRef = doc(db, "professionals", route.params.idRestaurant);
+      const professionalRef = doc(db, "professionals", route.params.idProfessional); // Cambiado a idProfessional
 
       await updateDoc(professionalRef, {
         ratingMedia: media,
@@ -135,6 +135,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     backgroundColor: "#7B2CBF",
-    marginBottom: 20,
+    marginBottom: 20, //TODO: agregar color a borde del boton y ver el color del fondo, no se muestra completo.
   },
 });
+
+//TODO: cambiar date por Timestamp.now()

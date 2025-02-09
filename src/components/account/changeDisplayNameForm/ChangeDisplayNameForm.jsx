@@ -2,12 +2,13 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Input, Button } from "@rneui/themed";
 import { useFormik } from "formik";
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import Toast from "react-native-toast-message"; 
 import { initialValues, validationSchema } from "./changeDisplayNameForm.data";
 
-export const ChangeDisplayNameForm = (props) => {
-  const { onClose, onReload } = props;
+export const ChangeDisplayNameForm = ({ onClose, onReload }) => {
+  const db = getFirestore();
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -15,11 +16,11 @@ export const ChangeDisplayNameForm = (props) => {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-        const { displayName } = formValue;
+        const { first_name, last_name } = formValue;
         const currentUser = getAuth().currentUser;
-        console.log("USER", currentUser);
-        console.log("NAME", displayName);
-        await updateProfile(currentUser, { displayName });
+        const userRef = doc(db, "users", currentUser.uid);
+
+        await setDoc(userRef, { first_name, last_name }, { merge: true });
 
         onReload();
         onClose();
@@ -35,20 +36,29 @@ export const ChangeDisplayNameForm = (props) => {
         });
       }
     },
-
   });
 
   return (
     <View style={styles.content}>
       <Input
-        placeholder="Nombre y apellidos"
+        placeholder="Nombre"
         rightIcon={{
           type: "material-community",
           name: "account-circle-outline",
           color: "#c2c2c2",
         }}
-        onChangeText={(text) => formik.setFieldValue("displayName", text)}
-        errorMessage={formik.errors.displayName}
+        onChangeText={(text) => formik.setFieldValue("first_name", text)}
+        errorMessage={formik.errors.first_name}
+      />
+      <Input
+        placeholder="Apellidos"
+        rightIcon={{
+          type: "material-community",
+          name: "account-circle-outline",
+          color: "#c2c2c2",
+        }}
+        onChangeText={(text) => formik.setFieldValue("last_name", text)}
+        errorMessage={formik.errors.last_name}
       />
       <Button
         title="Cambiar nombre y apellidos"

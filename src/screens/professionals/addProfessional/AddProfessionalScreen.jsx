@@ -55,7 +55,7 @@ export function AddProfessionalScreen() {
   );
 } */
 
-  import React from "react";
+import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Button } from "@rneui/themed";
 import { useFormik } from "formik";
@@ -132,7 +132,7 @@ export function AddProfessionalScreen() {
   },
 });
 
-
+//TODO: agregar Tost en caso de error.
 
 /* const styles = StyleSheet.create({
     container: {

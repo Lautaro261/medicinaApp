@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Icon } from "@rneui/themed";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { collection, onSnapshot, orderBy, query, doc, getDoc } from "firebase/firestore";
+import { collection, onSnapshot, query, doc, getDoc, orderBy } from "firebase/firestore";
 import { LoadingModal } from "../../../components/shared/loadingModal/LoadingModal";
 import { ProfessionalsList } from "../../../components/Professionals/professionalsList/ProfessionalsList";
 import { screen } from "../../../utils/ScreenName";
@@ -44,7 +44,7 @@ export const ProfessionalsScreen = (props) => {
   };
 
   useEffect(() => {
-    const q = query(collection(db, "professionals"), orderBy("createdAt", "desc"));
+    const q = query(collection(db, "professionals"), orderBy("verified", "desc"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setProfessionals(snapshot.docs);
     });

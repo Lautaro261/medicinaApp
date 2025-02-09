@@ -1,32 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Avatar, Text } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
 import { getAuth, updateProfile } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export const InfoUser=(props) => {
-   const { setLoading, setLoadingText } = props;
-  const { uid, photoURL, displayName, email } = getAuth().currentUser;
-  const [avatar, setAvatar] = useState(photoURL);
+export const InfoUser = ({ setLoading, setLoadingText, userData }) => {
 
-  console.log(getAuth().currentUser)
+  const { uid, photoURL } = getAuth().currentUser;
+  const [avatar, setAvatar] = useState(photoURL);
+  const [firstName, setFirstName] = useState(userData.first_name || "Anónimo");
+  const [lastName, setLastName] = useState(userData.last_name || "");
+
+  useEffect(() => {
+    if (userData) {
+      setFirstName(userData.first_name || "Anónimo");
+      setLastName(userData.last_name || "");
+    }
+  }, [userData]);
 
   const changeAvatar = async () => {
-     const result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
     });
-    console.log(result.assets[0].uri)
 
     if (!result.canceled) {
-      uploadImage(result.assets[0].uri); 
+      uploadImage(result.assets[0].uri);
     }
   };
 
   const uploadImage = async (uri) => {
-     setLoadingText("Actualizando Avatar");
+    setLoadingText("Actualizando Avatar");
     setLoading(true);
 
     const response = await fetch(uri);
@@ -37,11 +43,11 @@ export const InfoUser=(props) => {
 
     uploadBytes(storageRef, blob).then((snapshot) => {
       updatePhotoUrl(snapshot.metadata.fullPath);
-    }); 
+    });
   };
 
   const updatePhotoUrl = async (imagePath) => {
-     const storage = getStorage();
+    const storage = getStorage();
     const imageRef = ref(storage, imagePath);
 
     const imageUrl = await getDownloadURL(imageRef);
@@ -50,12 +56,12 @@ export const InfoUser=(props) => {
     updateProfile(auth.currentUser, { photoURL: imageUrl });
 
     setAvatar(imageUrl);
-    setLoading(false); 
+    setLoading(false);
   };
 
   return (
     <View style={styles.content}>
-       <Avatar
+      <Avatar
         size="large"
         rounded
         containerStyle={styles.avatar}
@@ -63,30 +69,29 @@ export const InfoUser=(props) => {
         source={{ uri: avatar }}
       >
         <Avatar.Accessory size={24} onPress={changeAvatar} />
-      </Avatar> 
+      </Avatar>
 
       <View>
-        <Text style={styles.displayName}>{displayName || "Anónimo"}</Text>
-        <Text>{email}</Text>
+        <Text style={styles.displayName}>{`${firstName} ${lastName}` || "Anónimo"}</Text>
+        <Text>{getAuth().currentUser.email}</Text>
       </View>
     </View>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
-    content: {
-      alignItems: "center",
-      justifyContent: "center",
-      flexDirection: "row",
-      paddingVertical: 30,
-    },
-    avatar: {
-      marginRight: 20,
-      backgroundColor: "green",
-    },
-    displayName: {
-      fontWeight: "bold",
-      paddingBottom: 5,
-    },
-  });
+  content: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    paddingVertical: 30,
+  },
+  avatar: {
+    marginRight: 20,
+    backgroundColor: "green",
+  },
+  displayName: {
+    fontWeight: "bold",
+    paddingBottom: 5,
+  },
+});
