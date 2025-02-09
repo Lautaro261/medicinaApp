@@ -33,7 +33,7 @@ export function AccountOptions(props) {
       setRenderComponent(<ChangePasswordForm onClose={onCloseOpenModal} />);
     }
 
-    if (key === "generalInfo") { // 👈 Nueva opción
+    if (key === "generalInfo") {
       setRenderComponent(<ChangeGeneralForm onClose={onCloseOpenModal} onReload={onReload} />);
     }
 

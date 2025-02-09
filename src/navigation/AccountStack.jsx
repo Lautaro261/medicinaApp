@@ -8,7 +8,6 @@ const Stack = createNativeStackNavigator();
 
 
 export const AccountStack = () => {
-    //Todo Falta agregar AccountScreen
   return (
     <Stack.Navigator
     screenOptions={{

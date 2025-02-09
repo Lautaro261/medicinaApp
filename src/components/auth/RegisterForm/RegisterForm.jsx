@@ -1,144 +1,34 @@
-/* import React,{useState} from 'react';
-import { StyleSheet } from 'react-native';
-import { useFormik } from 'formik';
-import { Layout, Input, Button } from '@ui-kitten/components';
-import { screen } from '../../../utils/ScreenName';
-import { useNavigation } from '@react-navigation/native';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { initialValues, validationSchema } from './registerForm.data';
-
-//Todo: Agregar icono de ojo para ocultar la contraseña showPassword
-
-//Todo: Agregar Toast from "react-native-toast-message"
-
-//Todo: Agregar validacion a name
-
-//Todo: Agregar Manejo de error para los inputs (creo que es con useInoutState)
-
-//Todo agregar LoadingIndicator
-
-export const RegisterForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const navigation = useNavigation();
-
-  const formik = useFormik({
-    initialValues: initialValues(),
-    validationSchema: validationSchema(),
-    validateOnChange: false,
-    onSubmit: async (formValue) => {
-      try {
-        const auth = getAuth();
-        await createUserWithEmailAndPassword(
-          auth,
-          formValue.email,
-          formValue.password
-        );
-        navigation.navigate(screen.account.account);
-      } catch (error) {
-        console.log('Error catch:',{error} )
-/*         Toast.show({
-          type: "error",
-          position: "bottom",
-          text1: "Error al registrarse, intentelo mas tarde",
-        }); 
-      }
-    },
-  });
-
-  const showHidenPassword = () => setShowPassword((prevState) => !prevState);
-
-  return (
-    <Layout style={styles.container}>
-      {/* Input Nombre }
-      <Input
-        placeholder="Nombre"
-        value={formik.values.name}
-        onChangeText={(text) => formik.setFieldValue("name", text)}
-        onBlur={formik.handleBlur('name')}
-        style={styles.input}
-      />
-
-      {/* Input Correo }
-      <Input
-        keyboardType="email-address"
-        autoCapitalize="none"
-        placeholder="Correo electrónico"
-        value={formik.values.email}
-        onChangeText={(text) => formik.setFieldValue("email", text)}
-        onBlur={formik.handleBlur('email')}
-        style={styles.input}
-      />
-
-      {/* Input Contraseña }
-      <Input
-        autoCapitalize="none"
-        placeholder="Contraseña"
-        secureTextEntry
-        value={formik.values.password}
-        onChangeText={(text) => formik.setFieldValue("password", text)}
-        onBlur={formik.handleBlur('password')}
-        style={styles.input}
-      />
-
-      {/* Input Repetir Contraseña }
-      <Input
-        autoCapitalize="none"
-        placeholder="Repetir Contraseña"
-        secureTextEntry
-        value={formik.values.confirmPassword}
-        onChangeText={(text) => formik.setFieldValue("repeatPassword", text)}
-        onBlur={formik.handleBlur('confirmPassword')}
-        style={styles.input}
-      />
-
-      {/* Botón Registrar }
-      <Button onPress={formik.handleSubmit} style={styles.button}>
-        Registrar
-      </Button>
-    </Layout>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#F3EAFB', // Fondo morado claro
-  },
-  input: {
-    marginBottom: 16,
-    width: '100%',
-    backgroundColor: '#FFF',
-    borderRadius: 8,
-    borderColor: '#D0B3F1', // Morado claro en bordes
-    borderWidth: 1,
-    paddingHorizontal: 12,
-  },
-  button: {
-    backgroundColor: '#7B2CBF', // Morado intenso
-    borderColor: '#7B2CBF',
-    borderRadius: 8,
-
-  },
-});
- */
-
-
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import { useFormik } from 'formik';
-import { Layout, Input, Button, Text } from '@ui-kitten/components';
+import { Layout, Input, Button, Text, Icon } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { initialValues, validationSchema } from './registerForm.data';
 import { screen } from '../../../utils/ScreenName';
+import Toast from 'react-native-toast-message';
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
   const navigation = useNavigation();
+
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
+
+  const renderPasswordIcon = (props) => (
+    <TouchableWithoutFeedback onPress={togglePasswordVisibility}>
+      <Icon {...props} name={showPassword ? 'eye' : 'eye-off'} />
+    </TouchableWithoutFeedback>
+  );
+
+  const renderConfirmPasswordIcon = (props) => (
+    <TouchableWithoutFeedback onPress={toggleConfirmPasswordVisibility}>
+      <Icon {...props} name={showConfirmPassword ? 'eye' : 'eye-off'} />
+    </TouchableWithoutFeedback>
+  );
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -146,16 +36,18 @@ export const RegisterForm = () => {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       if (!selectedRole) {
-        console.log('Debe seleccionar un rol antes de registrarse.');
+        Toast.show({
+          type: 'error',
+          text1: '❌ Debes seleccionar un rol.',
+          visibilityTime: 2500,
+        });
         return;
       }
-      console.log("Formik", formValue)
 
       try {
         const auth = getAuth();
         const firestore = getFirestore();
 
-        // Crear usuario en Firebase Authentication
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           formValue.email,
@@ -163,7 +55,6 @@ export const RegisterForm = () => {
         );
         const user = userCredential.user;
 
-        // Crear documento en Firestore con los datos del usuario
         const userDocRef = doc(firestore, 'users', user.uid);
         await setDoc(userDocRef, {
           id: user.uid,
@@ -176,83 +67,129 @@ export const RegisterForm = () => {
           createdAt: new Date().toISOString(),
         });
 
-        // Redirigir según el rol
         navigation.navigate(screen.account.account);
       } catch (error) {
         console.log('Error al registrarse:', error);
+        Toast.show({
+          type: 'error',
+          text1: '❌ Error al registrar',
+          text2: 'Hubo un problema al registrar tu cuenta.',
+          visibilityTime: 2500,
+        });
       }
     },
   });
 
+  // Función para obtener el icono del rol seleccionado
+  const renderRoleIcon = (role) => {
+    switch (role) {
+      case 'cliente':
+        return <Icon name="person-outline" width={24} height={24} />;
+      case 'profesional':
+        return <Icon name="briefcase-outline" width={24} height={24} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <Layout style={styles.container}>
-      {/* Input Nombre */}
+      {/* Nombre */}
       <Input
         placeholder="Nombre"
         value={formik.values.first_name}
-        onChangeText={(text) => formik.setFieldValue("first_name", text)}
+        onChangeText={(text) => formik.setFieldValue('first_name', text)}
         style={styles.input}
+        status={formik.touched.first_name && formik.errors.first_name ? 'danger' : 'basic'}
       />
+      {formik.touched.first_name && formik.errors.first_name && (
+        <Text style={styles.errorText}>{formik.errors.first_name}</Text>
+      )}
 
-      {/* Input Apellido */}
+      {/* Apellido */}
       <Input
         placeholder="Apellido"
         value={formik.values.last_name}
-        onChangeText={(text) => formik.setFieldValue("last_name", text)}
+        onChangeText={(text) => formik.setFieldValue('last_name', text)}
         style={styles.input}
+        status={formik.touched.last_name && formik.errors.last_name ? 'danger' : 'basic'}
       />
+      {formik.touched.last_name && formik.errors.last_name && (
+        <Text style={styles.errorText}>{formik.errors.last_name}</Text>
+      )}
 
-      {/* Input Correo */}
+      {/* Correo electrónico */}
       <Input
         keyboardType="email-address"
         autoCapitalize="none"
         placeholder="Correo electrónico"
         value={formik.values.email}
-        onChangeText={(text) => formik.setFieldValue("email", text)}
+        onChangeText={(text) => formik.setFieldValue('email', text)}
         style={styles.input}
+        status={formik.touched.email && formik.errors.email ? 'danger' : 'basic'}
       />
+      {formik.touched.email && formik.errors.email && (
+        <Text style={styles.errorText}>{formik.errors.email}</Text>
+      )}
 
-      {/* Input Contraseña */}
+      {/* Contraseña */}
       <Input
         autoCapitalize="none"
         placeholder="Contraseña"
-        secureTextEntry
+        secureTextEntry={showPassword}
         value={formik.values.password}
-        onChangeText={(text) => formik.setFieldValue("password", text)}
+        onChangeText={(text) => formik.setFieldValue('password', text)}
         style={styles.input}
+        status={formik.touched.password && formik.errors.password ? 'danger' : 'basic'}
+        accessoryRight={renderPasswordIcon}
       />
+      {formik.touched.password && formik.errors.password && (
+        <Text style={styles.errorText}>{formik.errors.password}</Text>
+      )}
 
-      {/* Input Repetir Contraseña */}
+      {/* Repetir contraseña */}
       <Input
         autoCapitalize="none"
         placeholder="Repetir Contraseña"
-        secureTextEntry
+        secureTextEntry={showConfirmPassword}
         value={formik.values.confirmPassword}
-        onChangeText={(text) => formik.setFieldValue("confirmPassword", text)}
+        onChangeText={(text) => formik.setFieldValue('confirmPassword', text)}
         style={styles.input}
+        status={formik.touched.confirmPassword && formik.errors.confirmPassword ? 'danger' : 'basic'}
+        accessoryRight={renderConfirmPasswordIcon}
       />
+      {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+        <Text style={styles.errorText}>{formik.errors.confirmPassword}</Text>
+      )}
 
-      {/* Botones de selección de rol */}
+      {/* Roles */}
       <Text category="s1" style={styles.label}>Selecciona tu rol:</Text>
       <View style={styles.roleContainer}>
         <Button
-          onPress={() => setSelectedRole("cliente")}
-          appearance={selectedRole === "cliente" ? "filled" : "outline"}
+          onPress={() => setSelectedRole('cliente')}
+          appearance={selectedRole === 'cliente' ? 'filled' : 'outline'}
           style={styles.roleButton}
+          accessoryLeft={() => renderRoleIcon('cliente')}
         >
           Cliente
         </Button>
         <Button
-          onPress={() => setSelectedRole("profesional")}
-          appearance={selectedRole === "profesional" ? "filled" : "outline"}
+          onPress={() => setSelectedRole('profesional')}
+          appearance={selectedRole === 'profesional' ? 'filled' : 'outline'}
           style={styles.roleButton}
+          accessoryLeft={() => renderRoleIcon('profesional')}
         >
           Profesional
         </Button>
       </View>
 
       {/* Botón Registrar */}
-      <Button onPress={formik.handleSubmit} style={styles.button}>
+      <Button
+      onPress={formik.handleSubmit}
+      style={styles.button}
+      activeOpacity={0.7}
+      appearance='filled'
+      >
         Registrar
       </Button>
     </Layout>
@@ -277,23 +214,33 @@ const styles = StyleSheet.create({
   },
   label: {
     marginBottom: 8,
+    fontWeight: 'bold',
     color: '#6A3AB6',
+    
   },
   roleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
     width: '100%',
+    marginVertical: 20,
   },
   roleButton: {
     flex: 1,
-    marginHorizontal: 4,
+    marginHorizontal: 30, // Cambiado de 4 a 2 para hacer los botones más angostos
     borderRadius: 8,
   },
   button: {
     backgroundColor: '#7B2CBF',
     borderColor: '#7B2CBF',
     borderRadius: 8,
+    paddingHorizontal: 30,
+  },
+  errorText: {
+    color: '#D9534F',
+    marginTop: 4,
+    fontSize: 12,
   },
 });
+
+
 

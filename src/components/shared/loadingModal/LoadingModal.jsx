@@ -1,17 +1,15 @@
 import React from "react";
-import { View, ActivityIndicator } from "react-native";
-import { Overlay, Text } from "@rneui/themed";
+import { StyleSheet, ActivityIndicator } from "react-native";
+import { Modal, Layout, Text } from "@ui-kitten/components";
 
-export function LoadingModal(props) {
-  const { show, text } = props;
-
+export function LoadingModal({ show, text }) {
   return (
-    <Overlay isVisible={show} overlayStyle={styles.overlay}>
-      <View style={styles.view}>
-        <ActivityIndicator size="large" color="#00a680" />
+    <Modal visible={show} backdropStyle={styles.backdrop}>
+      <Layout style={styles.modalContainer}>
+        <ActivityIndicator size="large" color="#5A189A" />
         {text && <Text style={styles.text}>{text}</Text>}
-      </View>
-    </Overlay>
+      </Layout>
+    </Modal>
   );
 }
 
@@ -19,25 +17,25 @@ LoadingModal.defaultProps = {
   show: false,
 };
 
-import { StyleSheet } from "react-native";
-
-export const styles = StyleSheet.create({
-  overlay: {
-    height: 100,
-    width: 200,
-    backgroundColor: "#fff",
-    borderColor: "#00a680",
-    borderWidth: 2,
+const styles = StyleSheet.create({
+  modalContainer: {
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 40,
+    paddingHorizontal: 20,
     borderRadius: 10,
-  },
-  view: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    minHeight: 120,
+    width: 220,
   },
   text: {
-    color: "#00a680",
+    color: "#5A189A",
     textTransform: "uppercase",
     marginTop: 10,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  backdrop: {
+    backgroundColor: "#200838eb",
   },
 });

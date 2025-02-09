@@ -32,7 +32,7 @@ export const Info=(props) =>{
       <Map location={professional.location} name={professional.name} />
       {map(listInfo, (item, index) => (
         <ListItem key={index} bottomDivider>
-          <Icon type={item.iconType} name={item.iconName} color="#00a680" />
+          <Icon type={item.iconType} name={item.iconName} color="#5c179b" size={30} /> {/* Aumentado el tamaño del icono */}
           <ListItem.Content>
             <ListItem.Title>{item.text}</ListItem.Title>
           </ListItem.Content>

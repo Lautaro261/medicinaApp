@@ -1,8 +1,4 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { LoginScreen } from "../screens/account/loginScreen/LoginScreen";
-import { RegisterScreen } from "../screens/account/registerScreen/RegisterScreen";
-import { ProfessionalsScreen } from "../screens/professionals/professionals/ProfessionalsScreen";
-import { ProfessionalDetailsScreen } from "../screens/professionals/professional/ProfessionalDetailScreen";
 import { screen } from '../utils/ScreenName';
 import { ProfessionalStack } from "./ProfessionalStack";
 import { AccountStack } from "./AccountStack";
@@ -11,8 +7,6 @@ import { Icon } from "@ui-kitten/components";
 import { RankingStack } from "./RankingStack";
 import { AppointmentStack } from "./AppointmentStack";
 
-//const Stack = createStackNavigator();
-// Todo Cambiar createStactNavigator por Tab
 const Tab = createBottomTabNavigator();
 
 export const AppNavigation=()=>{
@@ -46,12 +40,6 @@ return(
         <Tab.Screen name={screen.ranking.tab} component={RankingStack} options={{title: "Ranking"}}/>
         <Tab.Screen name={screen.account.tab} component={AccountStack} options={{title: "Cuenta"}}/>
 
-
-
-         {/* <Tab.Screen name="Register" component={RegisterScreen} options={{headerShown:false}}/> */}
-         {/* <Tab.Screen name="Login"  component={LoginScreen} options={{headerShown:false}}/> */}
-         {/* <Tab.Screen name="Professionals" component={ProfessionalsScreen} options={{headerShown:false}}/> */}
-         {/* <Tab.Screen name="ProfessionalDetail" component={ProfessionalDetailsScreen} options={{headerShown:false}}/> */}
     
     
     </Tab.Navigator>
@@ -76,7 +64,7 @@ function screenOptions(route, color, size) {
     } else if (route.name === screen.appointment.tab) {
       iconName = "calendar-outline";
     } else {
-      iconName = "question-mark-outline"; // Fallback icon
+      iconName = "question-mark-outline"; 
     }
   
     

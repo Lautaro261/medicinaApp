@@ -4,7 +4,8 @@ import { Input, Button } from "@rneui/themed";
 import { useFormik } from "formik";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import * as Yup from "yup";
+import { initialValues, validationSchema } from "./changeGeneral.data";  
+import  Toast  from "react-native-toast-message";
 
 export const ChangeGeneralForm = (props) => {
   const { onClose, onReload } = props;
@@ -13,22 +14,8 @@ export const ChangeGeneralForm = (props) => {
   const user = auth.currentUser;
 
   const formik = useFormik({
-    initialValues: {
-      address: "",
-      phone: "",
-      dni: "",
-    },
-    validationSchema: Yup.object({
-      address: Yup.string().required("La dirección es obligatoria"),
-      phone: Yup.string()
-        .matches(/^[0-9]+$/, "Solo números")
-        .min(10, "Debe tener al menos 10 dígitos")
-        .required("El número de teléfono es obligatorio"),
-      dni: Yup.string()
-        .matches(/^[0-9]+$/, "Solo números")
-        .length(8, "El DNI debe tener 8 dígitos")
-        .required("El DNI es obligatorio"),
-    }),
+    initialValues: initialValues(),  
+    validationSchema: validationSchema(), 
     validateOnChange: false,
     onSubmit: async (formValues) => {
       try {
@@ -38,10 +25,23 @@ export const ChangeGeneralForm = (props) => {
           registrationCompleted: true 
         }, { merge: true });
 
+        Toast.show({
+          type: 'success',
+          text1: '✅ Información actualizada',
+          text2: 'Tus datos se han actualizado correctamente.',
+          visibilityTime: 3000, 
+        });
+
         onReload();
         onClose();
       } catch (error) {
         console.error("Error al actualizar la información:", error);
+        Toast.show({
+          type: 'error',
+          text1: '❌Error al actualizar',
+          text2: 'Ocurrió un error al intentar actualizar la información.',
+
+        });
       }
     },
   });
@@ -82,5 +82,5 @@ export const ChangeGeneralForm = (props) => {
 const styles = StyleSheet.create({
   content: { padding: 10 },
   btnContainer: { width: "100%", marginTop: 10 },
-  btn: { backgroundColor: "#0288d1" },
+  btn: { backgroundColor: "#5c179b" },
 });

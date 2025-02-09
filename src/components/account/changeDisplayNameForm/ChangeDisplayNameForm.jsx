@@ -3,13 +3,10 @@ import { View, StyleSheet } from "react-native";
 import { Input, Button } from "@rneui/themed";
 import { useFormik } from "formik";
 import { getAuth, updateProfile } from "firebase/auth";
-//import Toast from "react-native-toast-message";
+import Toast from "react-native-toast-message"; 
 import { initialValues, validationSchema } from "./changeDisplayNameForm.data";
 
-
-//Todo Agregar Toast
-
-export const ChangeDisplayNameForm=(props)=> {
+export const ChangeDisplayNameForm = (props) => {
   const { onClose, onReload } = props;
 
   const formik = useFormik({
@@ -20,21 +17,25 @@ export const ChangeDisplayNameForm=(props)=> {
       try {
         const { displayName } = formValue;
         const currentUser = getAuth().currentUser;
-        console.log("USER",currentUser)
-        console.log("NAME", displayName)
+        console.log("USER", currentUser);
+        console.log("NAME", displayName);
         await updateProfile(currentUser, { displayName });
 
         onReload();
         onClose();
+        Toast.show({ // Mostrar Toast en caso de éxito
+          type: "success",
+          text1: "✅ Nombre cambiado con éxito",
+        });
       } catch (error) {
-        console.log('Error: ', error)
-/*         Toast.show({
+        console.log('Error: ', error);
+        Toast.show({ // Mostrar Toast en caso de error
           type: "error",
-          position: "bottom",
-          text1: "Error al cambiar el nombre y apellidos",
-        }); */
+          text1: "❌ Error al cambiar el nombre",
+        });
       }
     },
+
   });
 
   return (
@@ -60,18 +61,16 @@ export const ChangeDisplayNameForm=(props)=> {
   );
 }
 
-
 const styles = StyleSheet.create({
-    content: {
-      alignItems: "center",
-      paddingVertical: 10,
-    },
-    btnContainer: {
-      width: "95%",
-      marginTop: 10,
-    },
-    btn: {
-      backgroundColor: "#00a680",
-    },
-  });
-  
+  content: {
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  btnContainer: {
+    width: "95%",
+    marginTop: 10,
+  },
+  btn: {
+    backgroundColor: "#5c179b",
+  },
+});

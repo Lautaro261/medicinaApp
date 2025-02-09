@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, Image} from 'react-native';
+import { Layout, Text} from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { RegisterForm } from '../../../components/auth/RegisterForm/RegisterForm';
 import { screen } from '../../../utils/ScreenName';
@@ -19,13 +19,14 @@ export const RegisterScreen = () => {
       
     <Layout style={styles.container}>
     {/* Título */}
-    <Text category="h1" style={styles.title}>
-      Bienvenido
-    </Text>
+    <Image 
+      source={require('../../../../assets/img/AppCogniKids.png')} 
+      style={styles.image} 
+    />
 
     {/* Subtítulo */}
     <Text category="s1" style={styles.subtitle}>
-      Inicia sesión para continuar
+      Crear cuenta para continuar
     </Text>
 
     {/* Formulario de Login */}
@@ -37,7 +38,7 @@ export const RegisterScreen = () => {
     </Text>
   </Layout>
 
-  );
+);
 };
 
 const styles = StyleSheet.create({
@@ -48,14 +49,15 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#F3EAFB',
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#5A189A',
-    marginBottom: 8,
+  image: {
+    width: 180, 
+    height: 180, 
+    borderRadius: 100, 
+    marginBottom: 24, 
   },
   subtitle: {
     fontSize: 16,
+    fontWeight: 'bold',
     color: '#6A3AB6',
     marginBottom: 24,
   },

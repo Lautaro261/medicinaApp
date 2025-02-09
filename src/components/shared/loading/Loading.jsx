@@ -9,7 +9,7 @@ export const Loading=(props)=> {
 
   return (
     <View style={styles.content}>
-      <ActivityIndicator size="large" color="#00a680" />
+      <ActivityIndicator size="large" color="#6f39a1df" />
       {text && <Text style={styles.text}>{text}</Text>}
     </View>
   );
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
       justifyContent: "center",
     },
     text: {
-      color: "#00a680",
+      color: "#5c179b",
       textTransform: "uppercase",
       marginTop: 10,
     },

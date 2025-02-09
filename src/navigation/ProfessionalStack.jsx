@@ -20,7 +20,7 @@ export const ProfessionalStack = () => {
     }}
     >
 
-         <Stack.Screen
+          <Stack.Screen
         name={screen.professional.professionals}
         component={ProfessionalsScreen}
         options={{title: "Profesionales"}}

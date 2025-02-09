@@ -8,7 +8,7 @@ import {
   EmailAuthProvider,
   reauthenticateWithCredential,
 } from "firebase/auth";
-//import Toast from "react-native-toast-message";
+import Toast from "react-native-toast-message";
 import { initialValues, validationSchema } from "./changePasswordForm.data";
 
 
@@ -30,21 +30,25 @@ export function ChangePasswordForm(props) {
           currentUser.email,
           formValue.password
         );
-        reauthenticateWithCredential(currentUser, credentials);
+        await reauthenticateWithCredential(currentUser, credentials); // Asegurarse de esperar la reautenticación
 
-        console.log("USER",currentUser)
-        console.log("PASSWORD", formValue.newPassword)
+        console.log("USER", currentUser);
+        console.log("PASSWORD", formValue.newPassword);
 
         await updatePassword(currentUser, formValue.newPassword);
 
         onClose();
+        Toast.show({
+          type: "success",
+          text1: "✅ Contraseña cambiada con éxito",
+        });
       } catch (error) {
-        console.log('Error', error)
-/*         Toast.show({
+        console.log('Error', error);
+        onClose();
+        Toast.show({
           type: "error",
-          position: "bottom",
-          text1: "Error al cambiar la contraseña",
-        }); */
+          text1: "❌ Error al cambiar la contraseña",
+        });
       }
     },
   });
@@ -115,7 +119,6 @@ const styles = StyleSheet.create({
       width: "95%",
     },
     btn: {
-      backgroundColor: "#00a680",
+      backgroundColor: "#5c179b",
     },
   });
-  

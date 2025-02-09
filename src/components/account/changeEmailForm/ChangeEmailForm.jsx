@@ -8,7 +8,7 @@ import {
   EmailAuthProvider,
   reauthenticateWithCredential,
 } from "firebase/auth";
-//import Toast from "react-native-toast-message";
+import Toast from "react-native-toast-message"; // Importar Toast
 import { initialValues, validationSchema } from "./changeEmailForm.data";
 
 export const ChangeEmailForm = (props) => {
@@ -29,22 +29,26 @@ export const ChangeEmailForm = (props) => {
           currentUser.email,
           formValue.password
         );
-        reauthenticateWithCredential(currentUser, credentials);
+        await reauthenticateWithCredential(currentUser, credentials); // Asegurarse de esperar la reautenticación
 
-        console.log("USER",currentUser)
-        console.log("EMAIL", formValue.email)
+        console.log("USER", currentUser);
+        console.log("EMAIL", formValue.email);
 
         await updateEmail(currentUser, formValue.email);
 
         onReload();
         onClose();
+        Toast.show({
+          type: "success",
+          text1: "✅ Email cambiado con éxito",
+        });
       } catch (error) {
-        console.log('Error',error )
-/*         Toast.show({
+        console.log('Error', error);
+        onClose();
+        Toast.show({
           type: "error",
-          position: "bottom",
-          text1: "Error al cambiar el email",
-        }); */
+          text1: "❌ Error al cambiar el email",
+        });
       }
     },
   });
@@ -81,8 +85,7 @@ export const ChangeEmailForm = (props) => {
   );
 }
 
-
- const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   content: {
     alignItems: "center",
     paddingVertical: 10,
@@ -94,6 +97,6 @@ export const ChangeEmailForm = (props) => {
     width: "95%",
   },
   btn: {
-    backgroundColor: "#00a680",
+    backgroundColor: "#5c179b",
   },
 });

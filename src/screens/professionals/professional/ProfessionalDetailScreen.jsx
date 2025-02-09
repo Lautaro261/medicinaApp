@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Dimensions, StyleSheet, Text } from "react-native";
+import { ScrollView, Dimensions, StyleSheet } from "react-native";
 import { doc, onSnapshot } from "firebase/firestore";
-import { Loading } from "../../../components/shared/loading/Loading";
+import { LoadingModal } from "../../../components/shared/loadingModal/LoadingModal"; // Cambiado a LoadingModal
 import { Carousel } from "../../../components/shared/carousel/Carousel";
 import { Header } from "../../../components/professional/Header/Header";
 import { Info } from "../../../components/professional/info/Info";
@@ -10,8 +10,6 @@ import { Reviews } from "../../../components/professional/reviews/Reviews";
 import { Button } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import { screen } from "../../../utils/ScreenName";
-//import { Carousel, Loading } from "../../../components/Shared";
-//import {Header,Info,BtnReviewForm,Reviews,BtnFavorite} from "../../../components/Restaurant";
 import { db } from "../../../utils/firebase";
 
 const { width } = Dimensions.get("window");
@@ -19,37 +17,54 @@ const { width } = Dimensions.get("window");
 export const ProfessionalDetailsScreen = (props) => {
   const { route } = props;
   const [professional, setProfessional] = useState(null);
+  const [loading, setLoading] = useState(true); // Estado de carga
   const navigation = useNavigation();
 
-  const goToAppointments = ()=>{
+  const goToAppointments = () => {
     navigation.navigate(screen.appointment.tab, {
       screen: screen.appointment.availableAppointments,
       params: {
         id: professional.id,
         name: professional.name
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     setProfessional(null);
-    onSnapshot(doc(db, "professionals", route.params.id), (doc) => {
-      //console.log("DETALLE",doc.data());
+    setLoading(true); // Iniciar carga
+    const unsubscribe = onSnapshot(doc(db, "professionals", route.params.id), (doc) => {
       setProfessional(doc.data());
+      setLoading(false); // Finalizar carga
     });
+    return () => unsubscribe(); // Limpiar suscripción
   }, [route.params.id]);
 
-  if (!professional) return <Loading show text="Cargando profesionales" />;
-
   return (
-    <ScrollView style={styles.content}>
-      <Carousel arrayImages={professional.images} height={250} width={width} /> 
-      <Header professional={professional} />
-      <Button onPress={goToAppointments}>Obtener Turno</Button>
-      <Info professional={professional} />
-      <BtnReviewForm idProfessional={route.params.id} />
-      <Reviews idProfessional={route.params.id} />
-    </ScrollView>
+    <>
+      <LoadingModal show={loading} text="Cargando profesionales..." /> {/* Implementación del LoadingModal */}
+      {professional && (
+        <ScrollView style={styles.content}>
+          <Carousel arrayImages={professional.images} height={250} width={width} />
+          <Header professional={professional} />
+
+
+          <Button
+          onPress={goToAppointments}
+          style={styles.button}
+          appearance="filled"
+          activeOpacity={0.7}
+          >Obtener Turno</Button>
+
+
+          <Info professional={professional} />
+          
+          <BtnReviewForm idProfessional={route.params.id} />
+          <Reviews idProfessional={route.params.id} />
+
+        </ScrollView>
+      )}
+    </>
   );
 }
 
@@ -57,6 +72,13 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: "#fff",
   },
+  button: {
+    marginTop: 24,
+    backgroundColor: "#7B2CBF", // Morado intenso
+    borderColor: "#7B2CBF",
+    borderRadius: 8,
+    marginHorizontal: 60,
+  }
 });
 
 

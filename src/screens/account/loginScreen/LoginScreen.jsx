@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout, Text, Button } from '@ui-kitten/components';
+import { StyleSheet, Image } from 'react-native';
+import { Layout, Text} from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { LoginForm } from '../../../components/auth/loginForm/LoginForm';
 import { screen } from '../../../utils/ScreenName';
@@ -20,6 +20,10 @@ export const LoginScreen = () => {
       
     <Layout style={styles.container}>
     {/* Título */}
+    <Image 
+      source={require('../../../../assets/img/AppCogniKids.png')} 
+      style={styles.image} 
+    />
     <Text category="h1" style={styles.title}>
       Bienvenido
     </Text>
@@ -51,11 +55,18 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#F3EAFB',
   },
+  image: {
+    width: 180, 
+    height: 180, 
+    borderRadius: 100, 
+    marginTop: -150,
+    marginBottom: 24,
+  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#5A189A',
-    marginBottom: 8,
+    marginBottom: 30,
   },
   subtitle: {
     fontSize: 16,

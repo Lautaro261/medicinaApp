@@ -9,6 +9,7 @@ import * as eva from '@eva-design/eva';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { useColorScheme } from 'react-native';
 import {initFirebase} from "./src/utils/firebase";
+import Toast from 'react-native-toast-message';
 
 LogBox.ignoreAllLogs();
 
@@ -17,19 +18,15 @@ export const App = () => {
   const theme = colorScheme === 'dark' ? eva.dark : eva.light;
 
   return (
-    // Todo Agregar theme={theme} de useColorScheme()
-
     <>
-    <IconRegistry icons={EvaIconsPack}/>
-
-    <ApplicationProvider {...eva} theme={theme}>
-
-    <NavigationContainer>
-      <AppNavigation/>
-      <StatusBar style="auto"/>
-    </NavigationContainer>
-    </ApplicationProvider>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={theme}>
+        <NavigationContainer>
+          <AppNavigation />
+          <StatusBar style="auto" />
+        </NavigationContainer>
+        <Toast />
+      </ApplicationProvider>
     </>
-   
   );
-}
+};

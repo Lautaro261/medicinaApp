@@ -1,11 +1,11 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { Image, Text, Rating, Icon } from "@rneui/themed";
+import { Image, Text, Icon } from "@rneui/themed";
+import { AirbnbRating } from "react-native-ratings";
 import { useNavigation } from "@react-navigation/native";
 import { screen } from "../../../utils/ScreenName";
 
-
-export const  ProfessionalRanking=(props)=> {
+export const ProfessionalRanking = (props) => {
   const { professional, index } = props;
   const navigation = useNavigation();
 
@@ -36,7 +36,6 @@ export const  ProfessionalRanking=(props)=> {
     );
   };
 
-
   return (
     <TouchableOpacity onPress={goToProfessional}>
       <View style={styles.content}>
@@ -46,21 +45,23 @@ export const  ProfessionalRanking=(props)=> {
             {renderMedal()}
             <Text style={styles.name}>{professional.name}</Text>
           </View>
-          <Rating
-            imageSize={15}
-            readonly
-            startingValue={professional.ratingMedia}
+          {/* AirbnbRating en lugar de @rneui/themed Rating */}
+           <AirbnbRating
+            count={5} 
+            defaultRating={professional.ratingMedia}
+            size={20} 
+            isDisabled={true} 
           />
         </View>
         <Text style={styles.description}>{professional.description}</Text>
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   content: {
-    backgroundColor: "#fff",
+    backgroundColor: "#f9f6f1",
     marginVertical: 10,
     marginHorizontal: 15,
   },

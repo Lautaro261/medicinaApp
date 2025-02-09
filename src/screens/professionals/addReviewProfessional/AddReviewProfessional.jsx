@@ -1,8 +1,9 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { AirbnbRating, Input, Button } from "@rneui/themed";
+import { AirbnbRating, Input } from "@rneui/themed";
+import { Button } from "@ui-kitten/components";
+import Toast from "react-native-toast-message"; 
 import { useFormik } from "formik";
-//import Toast from "react-native-toast-message";
 import { v4 as uuid } from "uuid";
 import { getAuth } from "firebase/auth";
 import {
@@ -19,8 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { db } from "../../../utils/firebase";
 import { initialValues, validationSchema } from "./AddReviewProfessional.data";
 
-
-export const AddReviewProfessionalScreen =(props)=> {
+export const AddReviewProfessionalScreen = (props) => {
   const { route } = props;
   const navigation = useNavigation();
 
@@ -41,12 +41,17 @@ export const AddReviewProfessionalScreen =(props)=> {
 
         await setDoc(doc(db, "reviews", idDoc), newData);
         await updateProfessional();
+        formik.resetForm(); 
+        Toast.show({
+          type: "success",
+          text1: "😄Gracias por valorar!",
+        });
+        navigation.goBack(); 
       } catch (error) {
-/*         Toast.show({
+        Toast.show({
           type: "error",
-          position: "bottom",
-          text1: "Errro al enviar la review",
-        }); */
+          text1: "❌ Error al enviar tu comentario", 
+        });
       }
     },
   });
@@ -68,8 +73,6 @@ export const AddReviewProfessionalScreen =(props)=> {
       await updateDoc(professionalRef, {
         ratingMedia: media,
       });
-
-      navigation.goBack();
     });
   };
 
@@ -79,13 +82,7 @@ export const AddReviewProfessionalScreen =(props)=> {
         <View style={styles.ratingContent}>
           <AirbnbRating
             count={5}
-            reviews={[
-              "Pesimo",
-              "Deficiente",
-              "Normal",
-              "Muy bueno",
-              "Excelente",
-            ]}
+            reviews={["Pesimo", "Deficiente", "Normal", "Muy bueno", "Excelente"]}
             defaultRating={formik.values.rating}
             size={35}
             onFinishRating={(rating) => formik.setFieldValue("rating", rating)}
@@ -109,35 +106,35 @@ export const AddReviewProfessionalScreen =(props)=> {
       </View>
 
       <Button
-        title="Enviar review"
-        containerStyle={styles.btnContainer}
-        buttonStyle={styles.btn}
+        style={styles.btn} 
         onPress={formik.handleSubmit}
         loading={formik.isSubmitting}
-      />
+        appearance="filled"
+        activeOpacity={0.7}
+      >
+        Comentar
+      </Button>
+
     </View>
   );
-}
+};
 
-
- const styles = StyleSheet.create({
-    content: {
-      flex: 1,
-      marginHorizontal: 15,
-      justifyContent: "space-between",
-    },
-    ratingContent: {
-      height: 160,
-      justifyContent: "center",
-    },
-    comment: {
-      height: 150,
-    },
-    btnContainer: {
-      marginBottom: 20,
-    },
-    btn: {
-      backgroundColor: "#00a680",
-    },
-  });
-  
+const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+    marginHorizontal: 15,
+    justifyContent: "space-between",
+    backgroundColor: "#F3EAFB", 
+  },
+  ratingContent: {
+    height: 160,
+    justifyContent: "center",
+  },
+  comment: {
+    height: 150,
+  },
+  btn: {
+    backgroundColor: "#7B2CBF",
+    marginBottom: 20,
+  },
+});

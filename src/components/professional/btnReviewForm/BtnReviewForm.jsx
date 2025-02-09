@@ -65,7 +65,7 @@ export const BtnReviewForm=(props) =>{
           icon={{
             type: "material-community",
             name: "square-edit-outline",
-            color: "#00a680",
+            color: "#05906f",
           }}
           buttonStyle={styles.button}
           titleStyle={styles.btnText}
@@ -91,15 +91,15 @@ const styles = StyleSheet.create({
     },
     text: {
       textAlign: "center",
-      color: "#00a680",
+      color: "#000000",
       padding: 20,
     },
     textClick: {
-      color: "#00a680",
+      color: "#5c179b",
       fontWeight: "bold",
     },
     btnText: {
-      color: "#00a680",
+      color: "#067a5f",
       fontWeight: "bold",
     },
     textSendReview: {
