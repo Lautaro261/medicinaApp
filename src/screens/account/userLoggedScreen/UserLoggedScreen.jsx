@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "@rneui/themed";
 import { getAuth, signOut } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { LoadingModal } from "../../../components/shared/loadingModal/LoadingModal";
 import { InfoUser } from "../../../components/account/infoUser/InfoUser";
 import { AccountOptions } from "../../../components/account/AccountOptions";
@@ -13,21 +13,26 @@ export const UserLoggedScreen = () => {
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
   const [registrationCompleted, setRegistrationCompleted] = useState(null);
-  const [userData, setUserData] = useState(null); // Estado para los datos del usuario
+  const [userData, setUserData] = useState(null);
+  const [verified, setVerified] = useState(false);
   const [_, setReload] = useState(false);
 
   const auth = getAuth();
   const db = getFirestore();
   const user = auth.currentUser;
-  const navigation = useNavigation(); // Inicializar useNavigation
+  const navigation = useNavigation();
 
   const goToVerificationProfessional = () => {
+    if (!userData) {
+      console.error("Error: userData no está disponible");
+      return;
+    }
+    console.log("Antes de navegar a verificationProfessional:", { userId: userData.id});
     navigation.navigate(screen.professional.tab, {
       screen: screen.professional.verificationProfessional,
-/*       params: {
-        id: professional.id,
-        name: professional.name
-      } */
+      params: {
+        userId: userData.id,
+      }
     });
   };
 
@@ -41,8 +46,20 @@ export const UserLoggedScreen = () => {
 
         if (userDoc.exists()) {
           const data = userDoc.data();
-          setUserData(data); // Guardar los datos del usuario
+          setUserData(data);
           setRegistrationCompleted(data.registrationCompleted || false);
+
+          // Verificar si el usuario es profesional y obtener su estado de verificación
+          if (data.role === "professional") {
+            const professionalsRef = collection(db, "professionals");
+            const q = query(professionalsRef, where("userId", "==", user.uid));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+              const professionalData = querySnapshot.docs[0].data();
+              setVerified(professionalData.verified || false);
+            }
+          }
         } else {
           setRegistrationCompleted(false);
         }
@@ -53,7 +70,7 @@ export const UserLoggedScreen = () => {
     };
 
     fetchUserData();
-  }, [_]); // Se ejecuta cuando cambia `_`, forzando la recarga
+  }, [_]);
 
   const onReload = () => setReload((prevState) => !prevState);
 
@@ -67,7 +84,7 @@ export const UserLoggedScreen = () => {
 
   return (
     <View style={styles.container}>
-      <InfoUser setLoading={setLoading} setLoadingText={setLoadingText} userData={userData} /> {/* Pasar userData a InfoUser */}
+      <InfoUser setLoading={setLoading} setLoadingText={setLoadingText} userData={userData} />
 
       {/* Mostrar mensaje si el usuario no completó su registro */}
       {!registrationCompleted && (
@@ -78,11 +95,10 @@ export const UserLoggedScreen = () => {
         </View>
       )}
 
-
       <AccountOptions onReload={onReload} />
 
-            {/* Mensaje de verificación */}
-            {userData?.role === "professional" && !userData?.verified ? (
+      {/* Mensaje de verificación */}
+      {userData?.role === "professional" && !verified ? (
         <View style={styles.verificationContainer}>
           <Text style={styles.verificationText}>
             Aun no estás verificado. ¿Quieres verificarte?
@@ -91,11 +107,11 @@ export const UserLoggedScreen = () => {
             title="Verificar"
             buttonStyle={styles.btnVerifyStyles}
             titleStyle={styles.btnTextStyle}
-            onPress={goToVerificationProfessional} // Navegar a la pantalla de verificación
+            onPress={goToVerificationProfessional}
           />
         </View>
-      ) : userData?.role === "professional" && userData?.verified ? (
-        <Text style={styles.verifiedText}>Estás verificado</Text>
+      ) : userData?.role === "professional" && verified ? (
+        <Text style={styles.verifiedText}>¡Verificado! ✅</Text>
       ) : null}
 
       <Button
@@ -142,7 +158,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#008000",
     fontWeight: "bold",
+    fontSize: 22,
     marginVertical: 15,
+    marginBottom: 10,
+    textAlign: 'center'
   },
   btnVerifyStyles: {
     marginTop: 10,

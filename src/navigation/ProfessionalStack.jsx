@@ -5,7 +5,9 @@ import { ProfessionalDetailsScreen } from "../screens/professionals/professional
 import { AddProfessionalScreen } from "../screens/professionals/addProfessional/AddProfessionalScreen";
 import { AddReviewProfessionalScreen } from "../screens/professionals/addReviewProfessional/AddReviewProfessional";
 import { VerificationProfessionalScreen } from "../screens/professionals/verificationProfessional/VerificationProfessionalScreen";
+
 const Stack = createNativeStackNavigator();
+
 
 export const ProfessionalStack = () => {
   return (
@@ -20,11 +22,12 @@ export const ProfessionalStack = () => {
     }}
     >
 
-          <Stack.Screen
+        
+        <Stack.Screen
         name={screen.professional.professionals}
         component={ProfessionalsScreen}
         options={{title: "Profesionales"}}
-        /> 
+        />
 
         <Stack.Screen
         name={screen.professional.addProfessional}

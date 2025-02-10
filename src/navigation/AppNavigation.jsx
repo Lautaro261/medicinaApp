@@ -6,10 +6,38 @@ import { SearchStack } from "./SearchStack";
 import { Icon } from "@ui-kitten/components";
 import { RankingStack } from "./RankingStack";
 import { AppointmentStack } from "./AppointmentStack";
+import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
+import * as Linking from 'expo-linking';
+import { TestPagoScreen } from "../screens/TestPagoScreen";
 
 const Tab = createBottomTabNavigator();
 
-export const AppNavigation=()=>{
+export const AppNavigation = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const handleDeepLink = (event) => {
+      const { path } = Linking.parse(event.url);
+      console.log('Deep Link Path:', path); // Puedes ver la ruta en los logs
+
+      if (path === 'professional') {
+        navigation.navigate('ProfessionalStack');
+      } else if (path === 'appointments') {
+        navigation.navigate('AppointmentStack');
+      } else if (path === 'account') {
+        navigation.navigate('AccountStack');
+      }
+      // Agrega aquí más rutas según sea necesario
+    };
+
+    const subscription = Linking.addEventListener('url', handleDeepLink);
+
+    // Limpiar la suscripción cuando el componente se desmonte
+    return () => {
+      subscription.remove();
+    };
+  }, [navigation]);
     
 return(
     <Tab.Navigator
@@ -39,6 +67,7 @@ return(
         <Tab.Screen name={screen.appointment.tab} component={AppointmentStack} options={{title: "Mis Turnos"}}/>
         <Tab.Screen name={screen.ranking.tab} component={RankingStack} options={{title: "Ranking"}}/>
         <Tab.Screen name={screen.account.tab} component={AccountStack} options={{title: "Cuenta"}}/>
+        <Tab.Screen name={screen.testPago.tab} component={TestPagoScreen} options={{title: "Test Pago"}}/>
 
     
     

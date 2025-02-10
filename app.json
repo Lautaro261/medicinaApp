@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app-cogni-kids",
-    "slug": "app-cogni-kids",
+    "name": "AppCogniKids",
+    "slug": "AppCogniKids",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,14 +12,25 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "scheme": "appcognikids",
+    "deepLinks": [
+      "appcognikids://"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.appcognikids"
     },
     "android": {
+      "package": "com.appcognikids",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,6 +48,11 @@
           "locationAlwaysAndWhenInUsePermission": "Allow app-cogni-kids to use your location."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0de63655-6898-465d-a45c-94ea8177ef33"
+      }
+    }
   }
 }
