@@ -26,6 +26,7 @@ export const App = () => {
         ProfessionalStack: 'professional', // Puedes agregar las pantallas según sea necesario
         AppointmentStack: 'appointments',
         AccountStack: 'account',
+        'payment-status': 'payment-status/:status',
         // Agregar más pantallas de tu app aquí
       },
     },

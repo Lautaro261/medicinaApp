@@ -8,13 +8,25 @@ export const TimeCard = ({ date, time, professional }) => {
   const navigation = useNavigation();
 
   const handleSelectTime = () => {
-    console.log(`Seleccionaste la hora: ${date} - ${time}`);
-    navigation.navigate(screen.appointment.appointmentForm, { date, time, professional });
+    console.log(`Seleccionaste la hora: ${date} - ${time.time}, appointmentId: ${time.id}`);
+    console.log("TURNO", {
+      date,
+      time: time.time,
+      professional,
+      appointmentId: time.id,
+    })
+    // Navega al formulario de turno pasando además el appointmentId
+     navigation.navigate(screen.appointment.appointmentForm, {
+      date,
+      time: time.time,
+      professional,
+      appointmentId: time.id,
+    });
   };
 
   return (
     <Card style={styles.timeCard}>
-      <Text style={styles.timeText}>{time}</Text>
+      <Text style={styles.timeText}>{time.time}</Text>
       <Button size="tiny" appearance="ghost" onPress={handleSelectTime}>
         Seleccionar
       </Button>

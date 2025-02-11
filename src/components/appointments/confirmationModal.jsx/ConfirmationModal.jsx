@@ -9,7 +9,7 @@ export const ConfirmationModal = ({ visible, onCancel, onConfirm, date, time, pr
       backdropStyle={styles.backdrop}
       onBackdropPress={onCancel}
     >
-      <Card disabled={true}>
+      <Card disabled={true} style={styles.card}>
         <Text style={styles.modalText}>Está por reservar un turno:</Text>
         <Text style={styles.modalText}>{professional?.name}</Text>
         <Text style={styles.modalText}>Día: {date}</Text>
@@ -18,18 +18,22 @@ export const ConfirmationModal = ({ visible, onCancel, onConfirm, date, time, pr
 
         <View style={styles.buttonContainer}>
           <Button
-            style={styles.button}
-            appearance="outline"
+            style={styles.buttonSecondary}
+            appearance="filled"
+            activeOpacity={0.7}
             onPress={onCancel}
           >
             Cancelar
           </Button>
+          <View style={styles.buttonSpacer} />
           <Button
-            style={styles.button}
+            style={styles.buttonPrimary}
             onPress={onConfirm}
             disabled={loading}
+            appearance="filled"
+            activeOpacity={0.7}
           >
-            {loading ? "Procesando..." : "Confirmar y seguir"}
+            {loading ? "Procesando..." : "Confirmar y Seguir"}
           </Button>
         </View>
       </Card>
@@ -47,12 +51,32 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 16,
+    alignItems: "center",
   },
-  button: {
-    flex: 1,
-    marginHorizontal: 8,
+  buttonSpacer: {
+    width: 10, // Espacio entre los botones
+  },
+  buttonPrimary: {
+    backgroundColor: '#5A189A', 
+    borderColor: "#5A189A",
+    color: '#FFFFFF', 
+    padding: 10,
+    borderRadius: 8,
+    width: '60%',
+  },
+  buttonSecondary: {
+    backgroundColor: '#5d5c5c', 
+    borderColor: "#5d5c5c",
+    color: '#FFFFFF', 
+    padding: 10,
+    borderRadius: 8,
+    width: '40%',
   },
   backdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "#200838eb",
+  },
+  card: {
+    width: '90%',
+    padding: 20,
   },
 });

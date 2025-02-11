@@ -1,8 +1,9 @@
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, Text } from "react-native";
 import { DayCard } from "../dayCard/DayCard";
 
 export const AvailableAppointmentsList = ({ appointments, professional }) => {
+  console.log("List",appointments);
   if (appointments.length === 0) {
     return <Text style={styles.emptyText}>No hay turnos disponibles.</Text>;
   }

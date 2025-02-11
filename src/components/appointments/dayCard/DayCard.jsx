@@ -3,16 +3,17 @@ import { StyleSheet, Text, FlatList } from "react-native";
 import { Card } from "@ui-kitten/components";
 import { TimeCard } from "../timeCard/TimeCard";
 
-export const DayCard = ({ date, times, professional}) => {
-  console.log(professional)
+export const DayCard = ({ date, times, professional }) => {
   return (
     <Card style={styles.dayCard}>
       <Text style={styles.dayText}>{date}</Text>
       <FlatList
         data={times}
-        keyExtractor={(time) => time}
+        keyExtractor={(item) => item.id} // Usamos el id del turno
         horizontal
-        renderItem={({ item }) => <TimeCard time={item} date={date} professional={professional}/>}
+        renderItem={({ item }) => (
+          <TimeCard time={item} date={date} professional={professional} />
+        )}
         contentContainerStyle={styles.timesContainer}
       />
     </Card>
