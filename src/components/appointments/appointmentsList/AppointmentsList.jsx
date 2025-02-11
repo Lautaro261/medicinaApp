@@ -1,13 +1,29 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { Card, Text } from "@ui-kitten/components";
+import { useNavigation } from "@react-navigation/native";
+import { screen } from "../../../utils/ScreenName";
 
 export const AppointmentsList = ({ appointments }) => {
+  const navigation = useNavigation();
+
+  const goToProfessional = (professionalId) => {
+    navigation.navigate(screen.professional.tab, {
+      screen: screen.professional.professional,
+      params: {
+        id: professionalId,
+      }
+    });
+  };
+
   const renderItem = ({ item }) => (
-    <Card style={styles.card}>
+    <Card
+      style={styles.card}
+      onPress={() => goToProfessional(item.professionalId)}
+    >
       <Text category="h6" style={styles.cardTitle}>Detalles del Turno</Text>
       <Text style={styles.cardText}>
-        <Text style={styles.label}>Profesional:</Text> {item.professional?.name}
+        <Text style={styles.label}>Profesional:</Text> {item.professionalName}
       </Text>
       <Text style={styles.cardText}>
         <Text style={styles.label}>Fecha:</Text> {item.date}
@@ -57,3 +73,4 @@ const styles = StyleSheet.create({
     color: "#5A189A",
   },
 });
+

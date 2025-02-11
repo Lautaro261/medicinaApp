@@ -50,7 +50,7 @@ return(
             return screenOptions(route, color, size);
           },
           tabBarLabelStyle: {
-            fontSize: 14,  // Tamaño del texto
+            fontSize: 10,  // Tamaño del texto
             //fontWeight:'bold'
             //paddingBottom: 5,  // Espaciado entre el texto y el ícono (opcional)
           },
@@ -67,7 +67,7 @@ return(
         <Tab.Screen name={screen.appointment.tab} component={AppointmentStack} options={{title: "Mis Turnos"}}/>
         <Tab.Screen name={screen.ranking.tab} component={RankingStack} options={{title: "Ranking"}}/>
         <Tab.Screen name={screen.account.tab} component={AccountStack} options={{title: "Cuenta"}}/>
-        <Tab.Screen name={screen.testPago.tab} component={TestPagoScreen} options={{title: "Test Pago"}}/>
+       {/*  <Tab.Screen name={screen.testPago.tab} component={TestPagoScreen} options={{title: "Test Pago"}}/> */}
 
     
     

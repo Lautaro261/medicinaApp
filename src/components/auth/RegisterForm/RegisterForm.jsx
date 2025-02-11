@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   roleButton: {
     flex: 1,
-    marginHorizontal: 30, // Cambiado de 4 a 2 para hacer los botones más angostos
+    marginHorizontal: 4, // Cambiado de 4 a 2 para hacer los botones más angostos
     borderRadius: 8,
   },
   button: {

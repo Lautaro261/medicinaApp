@@ -85,6 +85,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     paddingVertical: 30,
+    //backgroundColor: "red",
+    height: "15%"
   },
   avatar: {
     marginRight: 20,

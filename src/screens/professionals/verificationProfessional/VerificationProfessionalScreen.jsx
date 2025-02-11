@@ -29,6 +29,7 @@ export function VerificationProfessionalScreen({ route }) {
     await updateProfessionalVerified(userId);
     setVerifying(false);
     setModalVisible(true);
+    //Aqui agregar proceso de pago
   };
 
   /** Actualiza la propiedad "verified" en Firestore */

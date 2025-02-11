@@ -54,10 +54,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     backgroundColor: '#F3EAFB',
+    paddingTop: 100,
   },
   image: {
-    width: 180, 
-    height: 180, 
+    width: 120, 
+    height: 120, 
     borderRadius: 100, 
     marginTop: -150,
     marginBottom: 24,

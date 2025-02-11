@@ -30,9 +30,9 @@ export const Carousel = (props)=> {
         }}
         dotStyle={{
           backgroundColor: "#000000",
-          width: 10,
-          height: 10,
-          borderRadius: 5,
+          width: 15,
+          height: 15,
+          borderRadius: 20,
         }}
       />
     );

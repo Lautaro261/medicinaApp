@@ -5,9 +5,13 @@ import { Text, Input, Button } from "@ui-kitten/components";
 export const AppointmentForm = ({ formik, date, time, professional }) => {
   return (
     <View style={styles.formContainer}>
-      <Text style={styles.title} category="h4">Turno para: {professional?.name}</Text>
-      <Text style={styles.subtitle}>Fecha: {date}</Text>
-      <Text style={styles.subtitle}>Hora: {time}</Text>
+      <Text style={styles.title} category="h4">Turno para: {professional?.professionalName}</Text>
+      <Text style={styles.subtitle}>
+        Fecha: <Text style={styles.boldText}>{date}</Text>
+      </Text>
+      <Text style={styles.subtitle}>
+        Hora: <Text style={styles.boldText}>{time}</Text>
+      </Text>
 
       <Input
         style={styles.input}
@@ -67,6 +71,9 @@ const styles = StyleSheet.create({
   subtitle: {
     textAlign: "center",
     marginBottom: 10,
+  },
+  boldText: {
+    fontWeight: "bold",
   },
   input: {
     marginBottom: 10,

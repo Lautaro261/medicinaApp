@@ -25,7 +25,9 @@ export const Header = (props) => {
 
 const styles = StyleSheet.create({
   content: {
-    margin: 15,
+    margin: 10,
+    //backgroundColor: "red",
+    paddingTop: -10,
   },
   titleView: {
     flexDirection: "row",
@@ -33,11 +35,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   name: {
-    fontSize: 25,
+    fontSize: 16,
     fontWeight: "bold",
   },
   description: {
     marginTop: 5,
-    color: "#828282",
+    color: "#717171",
   },
 });
