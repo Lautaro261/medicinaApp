@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Linking } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import { screen } from "../../../utils/ScreenName";
@@ -7,9 +7,10 @@ import { AppointmentForm } from "../../../components/appointments/appointmentFor
 import { ConfirmationModal } from "../../../components/appointments/confirmationModal.jsx/ConfirmationModal";
 import { validationSchema } from "./appointmentForm.data";
 import { useFormik } from "formik";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { updateAppointmentByCustomId } from "../../../utils/createProfessional";
+import { handleIntegrationMPAppointment } from "../../../utils/mercadoPago";
 
 export const AppointmentFormScreen = ({ route }) => {
   const { date, time, professional, appointmentId } = route.params;
@@ -46,7 +47,7 @@ export const AppointmentFormScreen = ({ route }) => {
     fetchUserData();
   }, [auth.currentUser]);
 
-  // Configuración de formik: enableReinitialize permite actualizar los valores cuando se obtengan de Firestore
+  // Configuración de formik: usa enableReinitialize para actualizar los valores cuando se obtengan de Firestore
   const formik = useFormik({
     initialValues: userData || { fullName: "", dni: "", phone: "" },
     enableReinitialize: true,
@@ -54,25 +55,35 @@ export const AppointmentFormScreen = ({ route }) => {
     onSubmit: () => setModalVisible(true),
   });
 
-  // Función que actualiza el documento del turno en la colección "Appointments" usando el id interno
+  // Función que actualiza el documento de turno (Appointments) con los datos del usuario
+  // Se busca el documento por la propiedad interna "id" que coincide con appointmentId
   const handleConfirm = async () => {
     try {
+      // Datos del turno que se actualizarán
       const appointmentData = {
         clientDni: formik.values.dni,
         clientId: auth.currentUser.uid,
         clientName: formik.values.fullName,
         clientPhone: formik.values.phone,
-        professionalName: professional?.professionalName, // Agregar nombre del profesional
-        status: "booked", // Actualizamos el estado del turno
+        status: "booked", // Actualizamos el estado del turno a "booked"
       };
 
       console.log("Actualizando turno con appointmentId:", appointmentId);
-      // Actualizamos el documento de turno sin borrar el resto de las propiedades
+      // Actualizamos el documento usando una función auxiliar que busca el turno por su propiedad interna "id"
       await updateAppointmentByCustomId(appointmentId, appointmentData, db);
       console.log("Turno actualizado correctamente.");
 
       // Limpiar el formulario
       formik.resetForm();
+
+      // Llamar al método de pago para la reserva
+      const paymentUrl = await handleIntegrationMPAppointment();
+      if (paymentUrl) {
+        // Abre la URL de pago en el navegador (o en el WebView si lo prefieres)
+        await Linking.openURL(paymentUrl);
+      } else {
+        alert("Error al procesar el pago. Inténtelo nuevamente.");
+      }
 
       // Navegar a "Mis Turnos" pasando el id del usuario
       navigation.navigate(screen.appointment.myAppointments, { userId: auth.currentUser.uid });

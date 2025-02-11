@@ -1,54 +1,66 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Linking } from 'react-native';
 import { Button, Text, Layout } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { getFirestore, collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 import { screen } from "../../../utils/ScreenName";
 import { VerificationModal } from "../../../components/shared/verificationModal/VerificationModal";
+import { handleIntegrationMP } from "../../../utils/mercadoPago";
 
 export function VerificationProfessionalScreen({ route }) {
-
   const [verifying, setVerifying] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const userId = route.params?.userId;  
 
-  /** Navega a la pantalla de profesionales */
+  // Navega a la pantalla de profesionales
   const handleGoHome = () => {
-    console.log("Navegando a la pantalla de profesionales");
-    navigation.navigate(screen.professional.tab,{
-      screen: screen.professional.professionals
+    navigation.navigate(screen.professional.tab, {
+      screen: screen.professional.professionals,
     });
   };
 
-  /** Inicia el proceso de verificación del profesional */
+  // Inicia el proceso de verificación:
+  // 1. Actualiza el documento en Firestore para marcar al profesional como verificado.
+  // 2. Muestra el modal de verificación (que incluye el botón para proceder con el pago).
   const handleVerify = async () => {
     if (!userId) return;
-
     setVerifying(true);
     await updateProfessionalVerified(userId);
     setVerifying(false);
     setModalVisible(true);
-    //Aqui agregar proceso de pago
   };
 
-  /** Actualiza la propiedad "verified" en Firestore */
+  // Actualiza la propiedad "verified" en Firestore para el profesional
   const updateProfessionalVerified = async (userId) => {
     const db = getFirestore();
     try {
       const professionalsRef = collection(db, "professionals");
       const q = query(professionalsRef, where("userId", "==", userId));
       const querySnapshot = await getDocs(q);
-
       if (querySnapshot.empty) return;
-
-      const professionalDoc = querySnapshot.docs[0]; 
-      const docId = professionalDoc.id;  
-
+      const professionalDoc = querySnapshot.docs[0];
+      const docId = professionalDoc.id;
       const professionalRef = doc(db, "professionals", docId);
       await updateDoc(professionalRef, { verified: true });
     } catch (error) {
       console.error("Error al actualizar la verificación:", error);
+    }
+  };
+
+  // Función que procesa el pago:
+  // Llama a handleIntegrationMP para obtener la URL de pago y la abre con Linking.
+  const handlePayment = async () => {
+    try {
+      const paymentUrl = await handleIntegrationMP(userId);
+      if (paymentUrl) {
+        await Linking.openURL(paymentUrl);
+      } else {
+        alert("Error al procesar el pago. Inténtelo nuevamente.");
+      }
+    } catch (error) {
+      console.error("Error al procesar el pago:", error);
+      alert("Hubo un problema con el pago. Intente más tarde.");
     }
   };
 
@@ -60,33 +72,33 @@ export function VerificationProfessionalScreen({ route }) {
         resizeMode="contain" 
       />
       <Text style={styles.successMessage}>¡Profesional creado exitosamente!</Text>
-
       <Text style={styles.infoText}>
         Como profesional verificado, tu perfil recibirá un tilde azul, lo que brindará a los clientes
         una garantía de confianza y mayor visibilidad en nuestra plataforma.
       </Text>
-
       <Layout style={styles.buttonsContainer}>
         <Button
           style={styles.buttonSecondary}
           onPress={handleGoHome}
-          appearance='filled'
+          appearance="filled"
         >
           Ir al inicio
         </Button>
-
         <Button
           style={styles.buttonPrimary}
           onPress={handleVerify}
-          appearance='filled'
+          appearance="filled"
           disabled={verifying}
         >
           {verifying ? "Verificando..." : "Verificarme"}
         </Button>
       </Layout>
-
-      {/* Modal separado en otro componente */}
-      <VerificationModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+      {/* Modal de verificación y pago */}
+      <VerificationModal 
+        visible={modalVisible} 
+        onClose={() => setModalVisible(false)}
+        onConfirm={handlePayment}
+      />
     </Layout>
   );
 }
@@ -131,7 +143,6 @@ const styles = StyleSheet.create({
   buttonPrimary: {
     backgroundColor: '#5A189A', 
     borderColor: "#5A189A",
-    color: '#FFFFFF', 
     padding: 10,
     borderRadius: 8,
     width: '45%',
@@ -139,7 +150,6 @@ const styles = StyleSheet.create({
   buttonSecondary: {
     backgroundColor: '#5d5c5c', 
     borderColor: "#5d5c5c",
-    color: '#FFFFFF', 
     padding: 10,
     borderRadius: 8,
     width: '40%',

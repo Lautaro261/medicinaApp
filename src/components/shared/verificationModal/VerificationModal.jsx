@@ -1,36 +1,51 @@
 import React from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
-import { Button, Text } from '@ui-kitten/components';
+import { Button, Text, Layout } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { screen } from '../../../utils/ScreenName';
 
-export function VerificationModal({ visible, onClose }) {
+export const VerificationModal = ({ visible, onClose, onConfirm }) => {
   const navigation = useNavigation();
 
+  // Al cerrar el modal, navega a la cuenta
   const handleClose = () => {
     onClose();
     navigation.navigate(screen.account.tab, {
-        screen: screen.account.account
+      screen: screen.account.account,
     });
   };
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={handleClose}>
       <View style={styles.overlay}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>¡Verificación exitosa! ✅</Text>
+        <Layout style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Verificación ✅</Text>
           <Text style={styles.modalMessage}>
-            Tu cuenta ha sido verificada correctamente. Ahora tienes mayor visibilidad en la plataforma.
+            El costo de verificación es de $500. Tu cuenta será verificada. A partir de ahora, tendrás mayor visibilidad en la plataforma.
           </Text>
-
-          <Button style={styles.closeButton} onPress={handleClose}>
-            Cerrar
-          </Button>
-        </View>
+          <View style={styles.buttonsContainer}>
+            <Button 
+            style={styles.buttonCancel}
+            onPress={handleClose}
+            appearance="filled"
+            activeOpacity={0.7}
+            >
+              Cancelar
+            </Button>
+            <Button 
+            style={styles.buttonPrimary}
+            onPress={onConfirm}
+            appearance="filled"
+            activeOpacity={0.7}
+            >
+              Continuar con el pago
+            </Button>
+          </View>
+        </Layout>
       </View>
     </Modal>
   );
-}
+};
 
 const styles = StyleSheet.create({
   overlay: {
@@ -59,12 +74,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  closeButton: {
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  buttonPrimary: {
     backgroundColor: '#5A189A',
-    borderColor: "#5A189A",
-    color: '#FFFFFF',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    borderColor: "#7B2CBF",
     borderRadius: 8,
+    flex: 1,
+    marginLeft: 5,
+  },
+  buttonCancel: {
+    backgroundColor: '#ba1c1c',
+    borderColor: "#ba1c1c",
+    borderRadius: 8,
+    flex: 1,
+    marginRight: 5,
   },
 });

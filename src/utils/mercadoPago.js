@@ -46,7 +46,7 @@ export const handleIntegrationMPAppointment = async () => {
       items: [
         {
           title: "Reserva de Turno",
-          description: "Pago por reserva de turno con profesional de salud",
+          description: "Reserva de turno con profesional",
           quantity: 1,
           currency_id: "ARS",
           unit_price: 1, // Precio actualizado

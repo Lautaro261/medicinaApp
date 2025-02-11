@@ -21,7 +21,7 @@ export function AddProfessionalScreen() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
 
-      await createProfessionalAndSlots(formValue, 1, "10:00", "15:00"); // Llamada a la función para crear profesional y turnos
+      await createProfessionalAndSlots(formValue, 20, "10:00", "15:00"); // Llamada a la función para crear profesional y turnos
 
       navigation.navigate(screen.professional.verificationProfessional);
     },
